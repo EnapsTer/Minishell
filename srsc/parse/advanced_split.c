@@ -13,6 +13,26 @@
 #include "libft.h"
 #include "advanced_split.h"
 #include <stdlib.h>
+#include <stdio.h>
+
+/*
+** Change value of shield char and return is changed or not
+*/
+
+BOOL change_shield_char(char *shield_char, char c, int shielding)
+{
+	if (shielding && !(*shield_char) && (c == '\'' || c == '"'))
+	{
+		*shield_char = c;
+		return (TRUE);
+	}
+	else if (shielding && *shield_char && *shield_char == c)
+	{
+		*shield_char = 0;
+		return (TRUE);
+	}
+	return (FALSE);
+}
 
 /*
 ** Returns len of shielded string
@@ -27,11 +47,7 @@ int		get_str_len(char *str, char delimiter, int shielding)
 	len = 0;
 	while (*str)
 	{
-		if (shielding && !shield_char && (*str == '\'' || *str == '"'))
-			shield_char = *str;
-		else if (shielding && shield_char && shield_char == *str)
-			shield_char = 0;
-		else
+		if (!change_shield_char(&shield_char, *str, shielding))
 			len++;
 		if (*str++ == delimiter && !shield_char)
 			break;
@@ -39,41 +55,33 @@ int		get_str_len(char *str, char delimiter, int shielding)
 	return (len);
 }
 
+char	*get_filled_str(char **str, char delimiter, int shielding)
+{
+	int		i;
+	int		len;
+	char 	shield_char;
+	char 	*result;
+
+	i = 0;
+	len = get_str_len(*str, delimiter, shielding);
+	shield_char = 0;
+	if (!(result = malloc(sizeof(char) * len)))
+		return (NULL);
+	while (**str && (**str != delimiter || shield_char))
+	{
+		if (!change_shield_char(&shield_char, **str, shielding))
+			result[i++] = **str;
+		(*str)++;
+	}
+	result[i] = '\0';
+	if (**str == delimiter)
+		(*str)++;
+	return (result);
+}
 /*
 ** Fill strs proceeding from delimiter and shielding
 */
 
-//подогнать 26 строк
-int		fill_strs(char **strs, char *str, char delimiter, int shielding)
-{
-	int 	len;
-	int 	i;
-	char 	shield_char;
-
-	shield_char = 0;
-	while (*strs)
-	{
-		i = 0;
-		len = get_str_len(str, delimiter, shielding);
-		if (!(*strs = malloc(sizeof(char) * len)))
-			return (ERROR);
-		while (*str && (*str != delimiter || shield_char))
-		{
-			if (shielding && !shield_char && (*str == '\'' || *str == '"'))
-				shield_char = *str;
-			else if (shielding && shield_char && shield_char == *str)
-				shield_char = 0;
-			else
-				(*strs)[i++] = *str;
-			str++;
-		}
-		(*strs)[i] = '\0';
-		if (*str == delimiter)
-			str++;
-		strs++;
-	}
-	return (TRUE);
-}
 
 /*
 ** Returns count of strings splited by delimiter use shielding
@@ -88,10 +96,7 @@ int		count_strs(char *str, char delimiter, int shielding)
 	shield_char = 0;
 	while (*str)
 	{
-		if (shielding && !shield_char && (*str == '\'' || *str == '"'))
-			shield_char = *str;
-		else if (shielding && shield_char && shield_char == *str)
-			shield_char = 0;
+		change_shield_char(&shield_char, *str, shielding);
 		if (*str == delimiter && !shield_char)
 			count++;
 		str++;
@@ -99,10 +104,26 @@ int		count_strs(char *str, char delimiter, int shielding)
 	return (shield_char ? ERROR : count + 1);
 }
 
+int		fill_strs(char **strs, char *str, char delimiter, int shielding)
+{
+	int i;
+	int len;
+
+	i = 0;
+	len = count_strs(str, delimiter, shielding);
+	while (i < len)
+	{
+		strs[i] = get_filled_str(&str, delimiter, shielding);
+		i++;
+	}
+	return (TRUE);
+}
+
 /*
 ** Returns strings splited by delimiter use shielding
 */
 
+//иногда не записывает
 char	**advanced_split(char *str, char delimiter, int shielding)
 {
 	char	**strs;
@@ -113,6 +134,9 @@ char	**advanced_split(char *str, char delimiter, int shielding)
 		return (NULL);
 	strs[strs_count] = NULL;
 	if ((fill_strs(strs, str, delimiter, shielding)) == ERROR)
+	{
+		printf("error");
 		return (NULL);
-
+	}
+	return (strs);
 }
