@@ -12,10 +12,7 @@
 
 #ifndef MINISHELL_SPLIT_H
 #define MINISHELL_SPLIT_H
-# define TRUE 1
-# define FALSE 0
-# define ERROR -1
-# define BOOL int
 
 char	**advanced_split(char *str, char delimiter, int shielding);
+
 #endif
