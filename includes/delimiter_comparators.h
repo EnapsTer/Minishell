@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   advanced_split.h                                   :+:      :+:    :+:   */
+/*   delimiter_comparators.h                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/19 17:53:45 by aherlind          #+#    #+#             */
-/*   Updated: 2021/01/19 17:53:46 by aherlind         ###   ########.fr       */
+/*   Created: 2021/01/31 15:39:10 by aherlind          #+#    #+#             */
+/*   Updated: 2021/01/31 15:39:10 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_SPLIT_H
-#define MINISHELL_SPLIT_H
+#ifndef DELIMITER_COMPARATORS_H
+#define DELIMITER_COMPARATORS_H
 
-char	**advanced_split(char *str, int (*is_delimiter)(char *), int shielding);
+int		is_semicolon(char *str);
 
+int 	is_pipe(char *str);
+
+int		is_redirect(char *str);
+
+int 	is_redirect_and_space(char *str);
+
+int 	is_shield(char *str);
 #endif

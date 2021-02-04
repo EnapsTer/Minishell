@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   advanced_split.h                                   :+:      :+:    :+:   */
+/*   commands_parser.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/19 17:53:45 by aherlind          #+#    #+#             */
-/*   Updated: 2021/01/19 17:53:46 by aherlind         ###   ########.fr       */
+/*   Created: 2021/02/03 12:07:18 by aherlind          #+#    #+#             */
+/*   Updated: 2021/02/03 12:17:52 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_SPLIT_H
-#define MINISHELL_SPLIT_H
+#ifndef MINISHELL_PROJECT_COMMANDS_PARSER_H
+#define MINISHELL_PROJECT_COMMANDS_PARSER_H
+# include "minishell.h"
 
-char	**advanced_split(char *str, int (*is_delimiter)(char *), int shielding);
+t_command get_parsed_commands(char *str);
+
+int 		parse_command(char *str, t_command *command);
+
+
 
 #endif
