@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft.h"
 
 int		is_semicolon(char *str)
 {

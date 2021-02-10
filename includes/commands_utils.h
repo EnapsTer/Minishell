@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands_parser.h                                  :+:      :+:    :+:   */
+/*   commands_io_utils.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/03 12:07:18 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/03 12:17:52 by aherlind         ###   ########.fr       */
+/*   Created: 2021/02/09 12:33:45 by aherlind          #+#    #+#             */
+/*   Updated: 2021/02/09 12:33:45 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_PROJECT_COMMANDS_PARSER_H
-#define MINISHELL_PROJECT_COMMANDS_PARSER_H
-# include "minishell.h"
+#ifndef COMMANDS_IO_UTILS_H
+#define COMMANDS_IO_UTILS_H
 
-int 		parse_command(char *str, t_command *command);
+int		close_fd(int fd);
 
+int 	get_double_redirect_fd(char *file_name, int current_fd);
 
+int 	get_right_redirect_fd(char *file_name, int current_fd);
+
+int 	get_left_redirect_fd(char *file_name, int current_fd);
+
+int			init_command(t_command *command);
+
+void		free_command(t_command **command);
+
+void		free_commands(t_command ***commands);
 
 #endif

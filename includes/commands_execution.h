@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands_parser.h                                  :+:      :+:    :+:   */
+/*   commands_execution.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/03 12:07:18 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/03 12:17:52 by aherlind         ###   ########.fr       */
+/*   Created: 2021/02/10 10:53:56 by aherlind          #+#    #+#             */
+/*   Updated: 2021/02/10 10:53:56 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_PROJECT_COMMANDS_PARSER_H
-#define MINISHELL_PROJECT_COMMANDS_PARSER_H
-# include "minishell.h"
+#ifndef COMMANDS_EXECUTION_H
+#define COMMANDS_EXECUTION_H
 
-int 		parse_command(char *str, t_command *command);
-
-
+int		execute_command(t_command *command, char **envp);
 
 #endif
