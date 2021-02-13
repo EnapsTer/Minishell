@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/31 14:28:59 by aherlind          #+#    #+#             */
-/*   Updated: 2021/01/31 15:41:14 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:03:51 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@ int 	is_pipe(char *str)
 	if (*str == '|')
 		return (1);
 	return (FALSE);
+}
+
+int		is_equal(char *str)
+{
+	return (*str == '=');
+}
+
+int 	is_colon(char *str)
+{
+	return (*str == ':');
 }
 
 int		is_redirect(char *str)

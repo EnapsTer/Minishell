@@ -27,4 +27,5 @@ void		free_command(t_command **command);
 
 void		free_commands(t_command ***commands);
 
+int 		init_stdfd(t_stdfd *stdfd);
 #endif

@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 12:31:27 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/10 10:52:56 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/13 12:25:59 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ int		close_fd(int fd)
 	if (fd != 0 && fd != 1)
 		if (close(fd) < 0)
 			return (ERROR);
+	return (TRUE);
+}
+
+int 	init_stdfd(t_stdfd *stdfd)
+{
+	if ((stdfd->std_in = dup(STDIN)) == ERROR)
+		return (ERROR);
+	if ((stdfd->std_out = dup(STDOUT)) == ERROR)
+		return (ERROR);
 	return (TRUE);
 }
 

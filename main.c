@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/10 13:38:11 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/13 16:23:31 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 //
 int main(int argc, char **argv, char **envp)
 {
-	char *str = "echo asd qwer";
+	char *str = "cat | ls";
 	handle_commands(str, envp);
 //	pid_t pid;
 //	pid_t pid1;

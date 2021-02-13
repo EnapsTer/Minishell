@@ -94,8 +94,6 @@ int handle_commands(char *str, char **envp)
 		while (commands[++j])
 		{
 			handle_redirects(commands[j]);
-			execute_command(commands[j], envp);
-
 //			printf("str = |%s|\n", commands[j]->str);
 //			printf("command name = %s\n", commands[j]->name);
 //			for (int index = 0; commands[j]->args && commands[j]->args[index]; index++)
@@ -104,8 +102,8 @@ int handle_commands(char *str, char **envp)
 //				printf("files = %s\n", commands[j]->files[index]);
 //			printf("in = %d ---- out = %d\n", commands[j]->in, commands[j]->out);
 //			printf("\n");
-
 		}
+		execute_commands(commands, envp);
 		free_commands(&commands);
 	}
 	free_str_arr(&semicoloned_strs);

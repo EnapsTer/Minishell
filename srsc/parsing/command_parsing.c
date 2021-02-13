@@ -43,8 +43,6 @@ int 		parse_command(char *str, t_command *command)
 	t_args = advanced_split(str, is_redirect_and_space, 1);
 	if (!(t_args))
 		return (ERROR);
-	command->name = *t_args++;
-	str += ft_strlen(command->name);
 	status = TRUE;
 	while (status == TRUE && *t_args && **t_args)
 	{

@@ -24,6 +24,8 @@ char	**advanced_split(char *str, int (*is_delimiter)(char *), int shielding)
 	char	**strs;
 	int		strs_count;
 
+	if (!str)
+		return (NULL);
 	if (*str == '\0')
 		strs_count = 0;
 	else if ((strs_count = count_strs(str, is_delimiter, shielding)) == ERROR)

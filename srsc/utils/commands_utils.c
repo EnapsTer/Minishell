@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 15:14:59 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/08 16:13:51 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/11 11:06:35 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 int		init_command(t_command *command)
 {
-	command->name = NULL;
 	command->args = NULL;
 	command->files = NULL;
 	command->str = NULL;
@@ -34,8 +33,6 @@ void		free_command(t_command **command)
 		free_str_arr(&temp_command->args);
 	if (temp_command->files)
 		free_str_arr(&temp_command->files);
-	if (temp_command->name)
-		free(temp_command->name);
 	if (temp_command->str)
 		free(temp_command->str);
 	free(*command);

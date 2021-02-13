@@ -42,8 +42,11 @@ int			handle_redirects(t_command *command)
 	while (command->str[i])
 	{
 		if (!ft_strncmp(">>", &(command->str[i]), 2))
+		{
 			command->out = get_double_redirect_fd(command->files[file_index++],
 										 command->out);
+			i++;
+		}
 		else if (!ft_strncmp(">", &(command->str[i]), 1))
 			command->out = get_right_redirect_fd(command->files[file_index++],
 										command->out);
