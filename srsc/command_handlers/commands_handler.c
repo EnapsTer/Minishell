@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:20:36 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/10 13:20:36 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/15 19:30:13 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ************************************************************************** */
@@ -103,7 +103,11 @@ int handle_commands(char *str, char **envp)
 //			printf("in = %d ---- out = %d\n", commands[j]->in, commands[j]->out);
 //			printf("\n");
 		}
-		execute_commands(commands, envp);
+		if (execute_commands(commands, envp) == ERROR)
+		{
+			printf("handle");
+			return (ERROR);
+		}
 		free_commands(&commands);
 	}
 	free_str_arr(&semicoloned_strs);

@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/13 16:54:42 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/15 19:40:11 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,55 +102,87 @@ int set_redirect(t_command *command)
 	return (TRUE);
 }
 
-int set_default_redirect(t_command *command, t_stdfd *stdfd)
+int set_default_redirect(t_command *command, t_fd *stdfd)
 {
 	if (command->in != STDIN)
 	{
-		if (close(command->in) < 0)
-			return (ERROR);
-		if (dup2(stdfd->std_in, STDIN) == ERROR)
+		close(command->in);
+//		if (close(command->in) < 0)
+//			return (ERROR);
+		if (dup2(stdfd->in, STDIN) == ERROR)
 			return (ERROR);
 	}
 	if (command->out != STDOUT)
 	{
-		if (close(command->out) < 0)
+		close(command->out);
+//		if (close(command->out) < 0)
+//			return (ERROR);
+		if (dup2(stdfd->out, STDOUT) == ERROR)
 			return (ERROR);
-		if (dup2(stdfd->std_out, STDOUT) == ERROR)
-			return (ERROR);
-
 	}
+	return (TRUE);
 }
-// echo 123 > file1 > file2
-int execute_command(t_command *command, char **envp, t_stdfd *stdfd)
+
+t_fd	set_closing_fd(t_command **commands, int i)
+{
+	t_fd	closing_fd;
+
+	if (i > 0 && commands[i]->in != STDIN && commands[i - 1]->out != STDOUT)
+		closing_fd.out = dup(commands[i - 1]->out);
+	else
+		closing_fd.out = -1;
+	if (commands[i + 1] && commands[i]->out != STDOUT && commands[i + 1]->in != STDIN)
+		closing_fd.in = dup(commands[i + 1]->in);
+	else
+		closing_fd.in = -1;
+	return (closing_fd);
+}
+
+int execute_command(t_command **commands, int i, char **envp)
 {
 	pid_t	pid;
 	char 	*path;
+	t_fd	closing_fd;
 
-	set_redirect(command);
+	set_redirect(commands[i]);
 	if ((pid = fork()) <= ERROR)
 		return (ERROR);
 	if (pid == 0)
 	{
-		if (!(path = get_command_path(command->args[0], envp)))
+		if (!(path = get_command_path(commands[i]->args[0], envp)))
 			exit(1); // доделать
-		execve(path, command->args, envp);
+//		closing_fd = set_closing_fd(commands, i);
+//		if (closing_fd.in != -1 && close(closing_fd.in) == ERROR)
+//			return (ERROR);
+//		if (closing_fd.out != -1 && close(closing_fd.out) == ERROR)
+//			return (ERROR);
+		if (i > 0 && commands[i]->in != STDIN && commands[i - 1]->out != STDOUT)
+			close(commands[i - 1]->out);
+		if (commands[i + 1] && commands[i]->out != STDOUT && commands[i + 1]->in != STDIN)
+			close(commands[i + 1]->in);
+		if (execve(path, commands[i]->args, envp) == ERROR)
+			return (ERROR);
+
 	}
-	set_default_redirect(command, stdfd);
 	return (TRUE);
 }
+
 
 int		execute_commands(t_command **commands, char **envp)
 {
 	int 	i;
 	int 	status;
-	t_stdfd stdfd;
+	t_fd	stdfd;
 
 	if (init_stdfd(&stdfd) == ERROR)
 		return (ERROR);
 	i = 0;
 	while (commands[i])
 	{
-		execute_command(commands[i], envp, &stdfd);
+		if (execute_command(commands, i, envp) == ERROR)
+			return (ERROR);
+		if (set_default_redirect(commands[i], &stdfd) == ERROR)
+			return (ERROR);
 		i++;
 	}
 	while (wait(&status) > 0)

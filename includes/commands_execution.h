@@ -13,7 +13,7 @@
 #ifndef COMMANDS_EXECUTION_H
 #define COMMANDS_EXECUTION_H
 
-int execute_command(t_command *command, char **envp, t_stdfd *stdenv);
+int execute_command(t_command *command, char **envp, t_fd *stdenv);
 
 int		execute_commands(t_command **commands, char **envp);
 #endif

@@ -23,11 +23,11 @@ int		close_fd(int fd)
 	return (TRUE);
 }
 
-int 	init_stdfd(t_stdfd *stdfd)
+int 	init_stdfd(t_fd *stdfd)
 {
-	if ((stdfd->std_in = dup(STDIN)) == ERROR)
+	if ((stdfd->in = dup(STDIN)) == ERROR)
 		return (ERROR);
-	if ((stdfd->std_out = dup(STDOUT)) == ERROR)
+	if ((stdfd->out = dup(STDOUT)) == ERROR)
 		return (ERROR);
 	return (TRUE);
 }

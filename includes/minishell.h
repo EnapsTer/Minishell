@@ -6,7 +6,7 @@
 /*   By: aherlind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:31:56 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/13 13:45:13 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/15 18:02:34 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,22 @@
 # define ERROR  -1
 # define BOOL	int
 
+
 typedef	struct		s_command
 {
 	char			**args;
 	char			**files;
 	char 			*str;
+	// переписать используя t_fd
 	int				in;
 	int 			out;
 }					t_command;
 
-typedef struct		s_stdfd
+typedef struct		s_fd
 {
-	int 			std_in;
-	int 			std_out;
-}					t_stdfd;
-
-//typedef	struct		s_commands
-//{
-//	t_command		*commands;
-//	int				len;
-//}					t_commands;
+	int 			in;
+	int 			out;
+}					t_fd;
 
 t_command	*get_parsed_command(char *str);
 #endif

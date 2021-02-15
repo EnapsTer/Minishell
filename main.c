@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/13 16:23:31 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/15 20:12:37 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 // поменять глобальное имя на гите чтоб статистика сохранялась
 // предварительный парсинг на ошибки ; ' "
 // капс команды
-//
+// cat | ls
 int main(int argc, char **argv, char **envp)
 {
-	char *str = "cat | ls";
-	handle_commands(str, envp);
-//	pid_t pid;
+	char *str = "cd ..";
+	if (handle_commands(str, envp) == -1)
+		return (-1);
 //	pid_t pid1;
 //	pid_t pid2;
 //	int status;
