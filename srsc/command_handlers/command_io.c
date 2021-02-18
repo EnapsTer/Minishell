@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 17:16:47 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/09 15:01:23 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/18 16:05:38 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int 		handle_pipes(t_command **commands)
 	int		i;
 	int 	pipes[2];
 
+	// 3 4
 	i = 0;
 	while (commands[i] && commands[i + 1])
 	{
@@ -29,7 +30,6 @@ int 		handle_pipes(t_command **commands)
 		i++;
 	}
 	return (TRUE);
-
 }
 
 int			handle_redirects(t_command *command)
@@ -39,6 +39,7 @@ int			handle_redirects(t_command *command)
 
 	file_index = 0;
 	i = 0;
+	// cat hello < file1
 	while (command->str[i])
 	{
 		if (!ft_strncmp(">>", &(command->str[i]), 2))
@@ -52,7 +53,7 @@ int			handle_redirects(t_command *command)
 										command->out);
 		else if (!ft_strncmp("<", &(command->str[i]), 1))
 			command->in = get_left_redirect_fd(command->files[file_index++],
-												 command->out);
+												 command->in);
 	//обработка errno
 		i++;
 	}

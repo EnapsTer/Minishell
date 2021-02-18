@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:20:36 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/15 19:30:13 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/18 16:26:48 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ************************************************************************** */
@@ -88,6 +88,7 @@ int handle_commands(char *str, char **envp)
 	i = -1;
 	while (semicoloned_strs[++i])
 	{
+		// echo hello > file1 | ls ; echo | ls ../
 		commands = get_commands_by_pipes(semicoloned_strs[i]);
 		handle_pipes(commands);
 		j = -1;
@@ -104,10 +105,7 @@ int handle_commands(char *str, char **envp)
 //			printf("\n");
 		}
 		if (execute_commands(commands, envp) == ERROR)
-		{
-			printf("handle");
 			return (ERROR);
-		}
 		free_commands(&commands);
 	}
 	free_str_arr(&semicoloned_strs);

@@ -36,6 +36,7 @@ int 		parse_command(char *str, t_command *command)
 	BOOL	redirect_flag;
 	int 	status;
 
+	//     cat adadfsdfsdf sdf
 	while (*str && ft_isspace(*str))
 		str++;
 	if (!(command->str = ft_strdup(str)))

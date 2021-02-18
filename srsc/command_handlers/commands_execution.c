@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/15 19:40:11 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/18 17:25:52 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int 	is_in_directory(char *file_name, char *path)
 	return (FALSE);
 }
 
+//переписать
 char	*create_full_path(char *name, char *path)
 {
 	char	*result;
@@ -86,13 +87,16 @@ char 	*get_command_path(char *name, char **envp)
 	return (NULL);
 }
 
+// STDIN - 0 ==== stdin
+// STDOUT - 1 ===
+// file1 - 3  === file1
+
 int set_redirect(t_command *command)
 {
 	if (command->in != STDIN)
 	{
 		if (dup2(command->in, STDIN) == ERROR)
 			return (ERROR);
-
 	}
 	if (command->out != STDOUT)
 	{
@@ -106,43 +110,35 @@ int set_default_redirect(t_command *command, t_fd *stdfd)
 {
 	if (command->in != STDIN)
 	{
-		close(command->in);
-//		if (close(command->in) < 0)
-//			return (ERROR);
+		if (close(command->in) < 0)
+			return (ERROR);
 		if (dup2(stdfd->in, STDIN) == ERROR)
 			return (ERROR);
 	}
 	if (command->out != STDOUT)
 	{
-		close(command->out);
-//		if (close(command->out) < 0)
-//			return (ERROR);
+		if (close(command->out) < 0)
+			return (ERROR);
 		if (dup2(stdfd->out, STDOUT) == ERROR)
 			return (ERROR);
 	}
 	return (TRUE);
 }
 
-t_fd	set_closing_fd(t_command **commands, int i)
+int		close_pipe_fd(t_command **commands, int i)
 {
-	t_fd	closing_fd;
-
 	if (i > 0 && commands[i]->in != STDIN && commands[i - 1]->out != STDOUT)
-		closing_fd.out = dup(commands[i - 1]->out);
-	else
-		closing_fd.out = -1;
+		close(commands[i - 1]->out);
+	// cat 0 4  ---  ls 3 1
 	if (commands[i + 1] && commands[i]->out != STDOUT && commands[i + 1]->in != STDIN)
-		closing_fd.in = dup(commands[i + 1]->in);
-	else
-		closing_fd.in = -1;
-	return (closing_fd);
+		close(commands[i + 1]->in);
+	return (TRUE);
 }
 
 int execute_command(t_command **commands, int i, char **envp)
 {
 	pid_t	pid;
 	char 	*path;
-	t_fd	closing_fd;
 
 	set_redirect(commands[i]);
 	if ((pid = fork()) <= ERROR)
@@ -150,16 +146,11 @@ int execute_command(t_command **commands, int i, char **envp)
 	if (pid == 0)
 	{
 		if (!(path = get_command_path(commands[i]->args[0], envp)))
-			exit(1); // доделать
-//		closing_fd = set_closing_fd(commands, i);
-//		if (closing_fd.in != -1 && close(closing_fd.in) == ERROR)
-//			return (ERROR);
-//		if (closing_fd.out != -1 && close(closing_fd.out) == ERROR)
-//			return (ERROR);
-		if (i > 0 && commands[i]->in != STDIN && commands[i - 1]->out != STDOUT)
-			close(commands[i - 1]->out);
-		if (commands[i + 1] && commands[i]->out != STDOUT && commands[i + 1]->in != STDIN)
-			close(commands[i + 1]->in);
+			exit(1);
+		//error
+		// cat | ls
+		//echo 1234 qwerty
+		close_pipe_fd(commands, i);
 		if (execve(path, commands[i]->args, envp) == ERROR)
 			return (ERROR);
 
@@ -177,6 +168,7 @@ int		execute_commands(t_command **commands, char **envp)
 	if (init_stdfd(&stdfd) == ERROR)
 		return (ERROR);
 	i = 0;
+	// echo hello > file1 | ls
 	while (commands[i])
 	{
 		if (execute_command(commands, i, envp) == ERROR)
