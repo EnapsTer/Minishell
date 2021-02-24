@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/18 17:25:52 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/21 20:22:32 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include "start.h"
+#include "environment_utils.h"
 
 
 int 	is_in_directory(char *file_name, char *path)
@@ -45,6 +47,7 @@ int 	is_in_directory(char *file_name, char *path)
 	return (FALSE);
 }
 
+
 //переписать
 char	*create_full_path(char *name, char *path)
 {
@@ -61,7 +64,7 @@ char	*create_full_path(char *name, char *path)
 }
 
 //возможно перенести функцию
-char 	*get_command_path(char *name, char **envp)
+char 	*get_command_path(char *name, t_env **env)
 {
 	char 	*path;
 	char 	**env_path;
@@ -70,7 +73,7 @@ char 	*get_command_path(char *name, char **envp)
 	if (ft_strchr(name, '/'))
 		return (name);
 	i = 0;
-	if (!(env_path = advanced_split(get_env_value("PATH", envp), is_colon, 0)))
+	if (!(env_path = advanced_split(get_env_value("PATH", env), is_colon, 0)))
 		return (NULL);
 	while (env_path[i])
 	{
@@ -135,7 +138,7 @@ int		close_pipe_fd(t_command **commands, int i)
 	return (TRUE);
 }
 
-int execute_command(t_command **commands, int i, char **envp)
+int execute_command(t_command **commands, int i, t_env **env)
 {
 	pid_t	pid;
 	char 	*path;
@@ -145,13 +148,13 @@ int execute_command(t_command **commands, int i, char **envp)
 		return (ERROR);
 	if (pid == 0)
 	{
-		if (!(path = get_command_path(commands[i]->args[0], envp)))
+		if (!(path = get_command_path(commands[i]->args[0], env)))
 			exit(1);
 		//error
 		// cat | ls
 		//echo 1234 qwerty
 		close_pipe_fd(commands, i);
-		if (execve(path, commands[i]->args, envp) == ERROR)
+		if (execve(path, commands[i]->args, build_envp(env)) == ERROR)
 			return (ERROR);
 
 	}
@@ -159,7 +162,7 @@ int execute_command(t_command **commands, int i, char **envp)
 }
 
 
-int		execute_commands(t_command **commands, char **envp)
+int		execute_commands(t_command **commands, t_env **env)
 {
 	int 	i;
 	int 	status;
@@ -171,7 +174,7 @@ int		execute_commands(t_command **commands, char **envp)
 	// echo hello > file1 | ls
 	while (commands[i])
 	{
-		if (execute_command(commands, i, envp) == ERROR)
+		if (execute_command(commands, i, env) == ERROR)
 			return (ERROR);
 		if (set_default_redirect(commands[i], &stdfd) == ERROR)
 			return (ERROR);

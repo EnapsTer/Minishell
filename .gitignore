@@ -54,3 +54,4 @@ dkms.conf
 #idea files
 .idea/
 cmake-build-debug/
+.DS_Store

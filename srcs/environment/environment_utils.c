@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_utils.c                                  :+:      :+:    :+:   */
+/*   environment_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/11 13:27:02 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/11 14:16:22 by aherlind         ###   ########.fr       */
+/*   Created: 2021/02/21 20:03:26 by nscarab           #+#    #+#             */
+/*   Updated: 2021/02/21 20:21:22 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 #include "strs_utils.h"
 #include "delimiter_comparators.h"
 #include <stdlib.h>
+#include "start.h"
 
-char	*get_env_value(char *name, char **envp)
+char	*get_envp_value(char *name, char **envp)
 {
 	int		i;
 	char 	**strs;
@@ -38,4 +39,43 @@ char	*get_env_value(char *name, char **envp)
 		i++;
 	}
 	return (NULL);
+}
+
+char	*get_env_value(char *name, t_env **env)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	while (tmp)
+	{
+		if (!ft_strcmp(name, (tmp)->name))
+			return ((tmp)->value);
+		tmp = (tmp)->next;
+	}
+	return (NULL);
+}
+
+char	**build_envp(t_env **env)
+{
+	int	size;
+	t_env	*tmp;
+	char	**result;
+
+	tmp = *env;
+	size = 0;
+	while (tmp)
+	{
+		size++;
+		tmp = tmp->next;
+	}
+	result = (char**)malloc(sizeof(char*) * (size + 1));
+	tmp = *env;
+	size = 0;
+	while (tmp)
+	{
+		result[size++] = superstrjoin(ft_strjoin(tmp->name, "="), tmp->value);
+		tmp = tmp->next;
+	}
+	result[size] = NULL;
+	return (result);
 }

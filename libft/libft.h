@@ -6,7 +6,7 @@
 /*   By: aherlind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 12:25:14 by aherlind          #+#    #+#             */
-/*   Updated: 2020/11/04 13:19:01 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/19 09:11:56 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LIBFT_H
 # include <stdlib.h>
 # include <unistd.h>
-# include <get_next_line.h>
+# include "get_next_line.h"
 
 typedef struct	s_list
 {

@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:20:36 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/18 16:26:48 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/02/21 19:53:32 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ************************************************************************** */
@@ -32,6 +32,7 @@
 #include "stdlib.h"
 
 #include <stdio.h>
+#include "start.h"
 
 t_command	*get_parsed_command(char *str)
 {
@@ -77,7 +78,7 @@ t_command **get_commands_by_pipes(char *str)
 }
 
 
-int handle_commands(char *str, char **envp)
+int handle_commands(char *str, t_env **env)
 {
 	char		**semicoloned_strs;
 	t_command	**commands;
@@ -104,7 +105,7 @@ int handle_commands(char *str, char **envp)
 //			printf("in = %d ---- out = %d\n", commands[j]->in, commands[j]->out);
 //			printf("\n");
 		}
-		if (execute_commands(commands, envp) == ERROR)
+		if (execute_commands(commands, env) == ERROR)
 			return (ERROR);
 		free_commands(&commands);
 	}

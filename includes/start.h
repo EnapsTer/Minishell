@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   start.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aherlind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 13:07:54 by aherlind          #+#    #+#             */
-/*   Updated: 2020/11/04 13:08:03 by aherlind         ###   ########.fr       */
+/*   Created: 2021/02/19 18:10:49 by nscarab           #+#    #+#             */
+/*   Updated: 2021/02/21 19:47:46 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef START_H
+#define START_H
 
-int	ft_lstsize(t_list *lst)
+typedef struct		s_env
 {
-	int count;
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
 
-	count = 0;
-	while (lst)
-	{
-		count++;
-		lst = lst->next;
-	}
-	return (count);
-}
+char	*superstrjoin(char *s1, char *s2);
+#endif
