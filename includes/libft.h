@@ -6,7 +6,7 @@
 /*   By: aherlind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 12:25:14 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/19 09:15:44 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/02/26 15:21:50 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int				ft_isalnum(int c);
 int				ft_isascii(int c);
 
 int				ft_isprint(int c);
+
+int	ft_isspace(char c);
 
 int				ft_toupper(int c);
 

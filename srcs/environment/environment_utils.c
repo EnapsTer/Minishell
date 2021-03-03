@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 20:03:26 by nscarab           #+#    #+#             */
-/*   Updated: 2021/02/21 20:21:22 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/02/28 17:49:22 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,28 @@ char	**build_envp(t_env **env)
 	}
 	result[size] = NULL;
 	return (result);
+}
+void	free_env(t_env **env)
+{
+	t_env	*tmp;
+	t_env	*begin;
+
+	begin = *env;
+	while (*env)
+	{
+		if ((*env)->name)
+		{
+			free((*env)->name);
+			(*env)->name = NULL;
+		}
+		if ((*env)->value)
+		{
+			free((*env)->value);
+			(*env)->value = NULL;
+		}
+		tmp = *env;
+		*env = tmp->next;
+		free(tmp);
+	}
+	begin = NULL;
 }

@@ -4,6 +4,7 @@ SRC			= $(PARSE_EXE)\
 			  $(EXECUTION_EXE)\
 			  $(ENVIRONMENT_EXE)\
 			  $(UTILS_EXE)\
+			  $(READ_EXE)\
 			  main.c
 #####################################parse#######################################
 PARSER_PATH	= srcs/parsing/
@@ -16,7 +17,8 @@ EXECUTION_EXE	= $(EXECUTION_PATH)commands_handler.c\
 				  $(EXECUTION_PATH)commands_execution.c
 #####################################enviroment#######################################
 ENVIRONMENT_PATH	= srcs/environment/
-ENVIRONMENT_EXE	= $(ENVIRONMENT_PATH)environment_utils.c
+ENVIRONMENT_EXE	= $(ENVIRONMENT_PATH)environment_utils.c\
+				  $(ENVIRONMENT_PATH)initialization_logic.c
 #####################################utils#######################################
 UTILS_PATH	= srcs/utils/
 UTILS_EXE	= $(UTILS_PATH)advanced_split_utils.c\
@@ -24,7 +26,16 @@ UTILS_EXE	= $(UTILS_PATH)advanced_split_utils.c\
 			  $(UTILS_PATH)commands_utils.c\
 			  $(UTILS_PATH)strs_utils.c\
 			  $(UTILS_PATH)command_io_utils.c
-#####################################objects#######################################
+#####################################reading#######################################
+READ_PATH	= srcs/command_read/
+READ_EXE	= $(READ_PATH)read_utils.c\
+			  $(READ_PATH)core_logic.c\
+			  $(READ_PATH)syntax_utils.c\
+			  $(READ_PATH)errors_read.c\
+			  $(READ_PATH)signals.c\
+			  $(READ_PATH)handle_new_line.c\
+			  $(READ_PATH)syntax_logic.c
+#####i################################objects#######################################
 OBJ			= $(SRC:.c=.o)
 #####################################libft#######################################
 L_PATH		= libft/
@@ -55,7 +66,7 @@ $(NAME): $(OBJ) $(HDR)
 	make -C $(L_PATH)
 	gcc $(CFLAGS) $(SANITIZE) $(L_PATH)$(L_NAME) $(OBJ) -o $(NAME)
 
-all:  $(NAME)
+all: $(NAME)
 
 clean:
 	make clean -C $(L_PATH)
