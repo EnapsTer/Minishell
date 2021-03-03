@@ -5,6 +5,7 @@ SRC			= $(PARSE_EXE)\
 			  $(ENVIRONMENT_EXE)\
 			  $(UTILS_EXE)\
 			  $(READ_EXE)\
+			  $(BUILT_EXE)\
 			  main.c
 #####################################parse#######################################
 PARSER_PATH	= srcs/parsing/
@@ -35,6 +36,11 @@ READ_EXE	= $(READ_PATH)read_utils.c\
 			  $(READ_PATH)signals.c\
 			  $(READ_PATH)handle_new_line.c\
 			  $(READ_PATH)syntax_logic.c
+#####################################builtins#######################################
+BUILT_PATH	= srcs/builtins/
+BUILT_EXE	= $(BUILT_PATH)env.c\
+			  $(BUILT_PATH)pwd.c\
+			  $(BUILT_PATH)echo.c
 #####i################################objects#######################################
 OBJ			= $(SRC:.c=.o)
 #####################################libft#######################################

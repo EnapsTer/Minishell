@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/02 19:55:53 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/03 16:58:35 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ void	routine (t_env **env)
 		read_commands(&errors);
 		signal(SIGINT, signal_handle_routine);
 		signal(SIGQUIT, signal_handle_routine);
-		//printf("%s\n", g_input_str);
+		if (!g_input_str)
+			g_input_str = ft_strdup("");
+		//printf("|%s|\n", g_input_str);
 		handle_commands(g_input_str, env);
 		if (g_input_str)
 		{

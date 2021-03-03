@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/02 19:08:30 by nscarab           #+#    #+#             */
+/*   Created: 2021/03/03 13:59:19 by nscarab           #+#    #+#             */
 /*   Updated: 2021/03/03 16:55:10 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "start.h"
 #include <libft.h>
 
-int	echo(char **argv)
+int	env(t_env *env)
 {
-	int	flag_n;
-	int	count;
-
-	count = 1;
-	flag_n = 0;
-	while (argv[count] && !ft_strcmp(argv[count], "-n"))
+	while (env)
 	{
-		count++;
-		flag_n++;
+		if (!ft_strcmp(env->name, "?") && env->value
+				&& *(env->value))
+		{
+			ft_putstr_fd(env->name, 1);
+			ft_putstr_fd("=", 1);
+			ft_putstr_fd(env->value, 1);
+			ft_putstr_fd("\n", 1);
+			env = env->next;
+		}
 	}
-	while (argv[count])
-	{
-		if (count > 1 + flag_n)
-			ft_putstr_fd(" ", 1);
-		ft_putstr_fd(argv[count + flag_n], 1);
-		count++;
-	}
-	if (!flag_n)
-		ft_putstr_fd("\n", 1);
 	exit (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:10:49 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/02 15:44:34 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/03 16:54:50 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,10 @@ int	handle_end_of_string(int *continue_flag);
 void	handle_semicoloned_syntax(int *continue_flag, char *str);
 void	handle_piped_syntax(int *continue_flag, char *str, int last_open);
 int	is_read_syntax_ok(int *continue_flag);
+
+/////////////builtins//////////////
+
+int	env(t_env *env);
+int	echo(char **argv);
+int	pwd(void);
 #endif

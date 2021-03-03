@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 13:27:49 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/02 17:35:17 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/03 15:51:58 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ int	handle_end_of_string(int *continue_flag)
 	count = 0;
 	while (g_input_str[count])
 	{
+		if ((g_input_str[count] == '>' || g_input_str[count] == '<')
+				&& !(is_mirrored(g_input_str, count)) &&
+				only_spaces_after(g_input_str, count))
+		{
+			print_reading_error("minishell: syntax error near unexpected token `newline'\n");
+			return (0);
+		}
 		if (g_input_str[count] == '|' && !(is_mirrored(g_input_str, count)) &&
 				only_spaces_after(g_input_str, count))
 		{
@@ -153,7 +160,7 @@ int	is_read_syntax_ok(int *continue_flag)
 	//ft_putstr_fd(noquotes, 1);
 	if (is_string_error(noquotes))
 		return (0);
-	last_open = !ends_with_semicolon(noquotes);
+	last_open = !ends_with_semicolon(g_input_str);
 	semicoloned_strs = advanced_split(noquotes, is_semicolon, 0);
 	while (semicoloned_strs[i]  && *continue_flag == 0)
 	{
@@ -162,9 +169,9 @@ int	is_read_syntax_ok(int *continue_flag)
 			handle_semicoloned_syntax(continue_flag, semicoloned_strs[i]);
 		if (!(piped_strs = advanced_split(semicoloned_strs[i], is_pipe, 0)))
 			return (0);
-		j = -1;
-		while (piped_strs[++j] && *continue_flag == 0)
-			handle_piped_syntax(continue_flag, piped_strs[j], last_open);
+		j = 0;
+		while (piped_strs[j] && piped_strs[j + last_open] && *continue_flag == 0)
+			handle_piped_syntax(continue_flag, piped_strs[j++], last_open);
 		free_str_arr(&piped_strs);
 		++i;
 	}
