@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:59:09 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/21 19:58:41 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/04 20:28:41 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,5 @@ int			handle_redirects(t_command *command);
 
 int 		handle_pipes(t_command **commands);
 
-
+t_command *get_parsed_command(char *str, t_env *env);
 #endif

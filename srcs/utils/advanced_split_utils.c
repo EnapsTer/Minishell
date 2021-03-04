@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:09:07 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/01 15:11:36 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/03 17:32:39 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,24 @@
 BOOL change_shield_char (char *shield_char, char *str,
 						 int (*is_delimiter)(char *), int shield)
 {
-	if ((shield && !(*shield_char) && (*str == '\'' || *str == '"')))
+	if (!(*shield_char) && (*str == '\'' || *str == '"'))
+	{
 		*shield_char = *str;
-	else if (shield && *shield_char && *shield_char == *str)
+		return (shield == 1 ? TRUE : FALSE);
+	}
+	else if (*shield_char && *shield_char == *str)
+	{
 		*shield_char = 0;
-	else if (!shield && is_delimiter(str + 1) && !(*shield_char) &&
-			 ((*str == '\'' || *str == '"')))
-		*shield_char = *str;
-	else if (!shield && is_delimiter(str - 1) && *shield_char
-			 && *shield_char == *str)
-		*shield_char = 0;
+		return (shield == 1 ? TRUE : FALSE);
+	}
+//	else if (!shield && is_delimiter(str) && shield_char)
+//		return (FALSE);
+//	else if (!shield && is_delimiter(str + 1) && !(*shield_char) &&
+//			 ((*str == '\'' || *str == '"')))
+//		*shield_char = *str;
+//	else if (!shield && is_delimiter(str - 1) && *shield_char
+//			 && *shield_char == *str)
+//		*shield_char = 0;
 	else
 		return (FALSE);
 	return (TRUE);

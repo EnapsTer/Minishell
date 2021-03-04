@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 #include <stdlib.h>
 #include "strs_utils.h"
 #include <advanced_split_utils.h>
@@ -33,7 +33,7 @@ char	**advanced_split(char *str, int (*is_delimiter)(char *), int shielding)
 	if (!(strs = malloc(sizeof(char *) * (strs_count + 1))))
 		return (NULL);
 	strs[strs_count] = NULL;
-	if ((fill_strs(strs, str, is_delimiter, shielding)) == ERROR)
+	if (strs_count && (fill_strs(strs, str, is_delimiter, shielding)) == ERROR)
 	{
 		free_str_arr(&strs);
 		return (NULL);

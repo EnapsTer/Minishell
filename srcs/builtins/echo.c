@@ -6,13 +6,13 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:08:30 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/03 16:55:10 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/03 17:32:39 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-int	echo(char **argv)
+void	echo(char **argv)
 {
 	int	flag_n;
 	int	count;

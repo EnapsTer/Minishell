@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:20:36 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/25 18:59:03 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/04 18:32:44 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ************************************************************************** */
@@ -34,14 +34,14 @@
 #include <stdio.h>
 #include "start.h"
 
-t_command	*get_parsed_command(char *str)
+t_command *get_parsed_command(char *str, t_env *env)
 {
 	t_command	*command;
 
 	if (!(command = malloc(sizeof(t_command))))
 		return (NULL);
 	init_command(command);
-	if (parse_command(str, command) == ERROR)
+	if (parse_command(str, command, env) == ERROR)
 	{
 		free_command(&command);
 		return (NULL);
@@ -56,7 +56,7 @@ t_command	*get_parsed_command(char *str)
 
 }
 
-t_command **get_commands_by_pipes(char *str)
+t_command **get_commands_by_pipes(char *str, t_env *env)
 {
 	t_command	**commands;
 	char		**piped_strs;
@@ -69,7 +69,7 @@ t_command **get_commands_by_pipes(char *str)
 	i = 0;
 	while (piped_strs[i])
 	{
-		commands[i] = get_parsed_command(piped_strs[i]);
+		commands[i] = get_parsed_command(piped_strs[i], env);
 		i++;
 	}
 	free_str_arr(&piped_strs);
@@ -90,7 +90,7 @@ int handle_commands(char *str, t_env **env)
 	while (semicoloned_strs[++i])
 	{
 		// echo hello > file1 | ls ; echo | ls ../
-		commands = get_commands_by_pipes(semicoloned_strs[i]);
+		commands = get_commands_by_pipes(semicoloned_strs[i], *env);
 		handle_pipes(commands);
 		j = -1;
 		while (commands[++j])

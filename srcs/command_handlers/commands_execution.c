@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/21 20:22:32 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/03 17:32:39 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,6 @@ int execute_command(t_command **commands, int i, t_env **env)
 		if (!(path = get_command_path(commands[i]->args[0], env)))
 			exit(1);
 		//error
-		// cat | ls
-		//echo 1234 qwerty
 		close_pipe_fd(commands, i);
 		if (execve(path, commands[i]->args, build_envp(env)) == ERROR)
 			return (ERROR);
