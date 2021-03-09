@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 17:37:11 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/03 17:32:39 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/08 17:54:22 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ int	is_string_error(char *str)
 {
 	if (!str)
 		return (0);
-	else if (ft_strnstr(str, ";;", ft_strlen(str)))
+	else if (ft_strnstr(str, ";;", ministrlen(str)))
 			print_reading_error("minishell: syntax error near unexpected token `;;'\n");
-	else if (ft_strnstr(str, "||", ft_strlen(str)))
+	else if (ft_strnstr(str, "||", ministrlen(str)))
 			print_reading_error("minishell: syntax error near unexpected token `||'\n");
-	else if (ft_strnstr(str, ">|", ft_strlen(str)))
+	else if (ft_strnstr(str, ">|", ministrlen(str)))
 			print_reading_error("minishell: syntax error near unexpected token `|'\n");
-	else if (ft_strnstr(str, ">>>", ft_strlen(str)))
+	else if (ft_strnstr(str, ">>>", ministrlen(str)))
 			print_reading_error("minishell: syntax error near unexpected token `>'\n");
-	else if (ft_strnstr(str, "<<", ft_strlen(str)))
+	else if (ft_strnstr(str, "<<", ministrlen(str)))
 			print_reading_error("minishell: syntax error near unexpected token `<'\n");
-	else if (ft_strnstr(str, "><", ft_strlen(str)))
+	else if (ft_strnstr(str, "><", ministrlen(str)))
 			print_reading_error("minishell: syntax error near unexpected token `<'\n");
 	else if (str[0] == ';')
 			print_reading_error("minishell: syntax error near unexpected token `;'\n");

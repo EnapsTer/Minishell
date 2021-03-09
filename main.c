@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/03 20:08:18 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/09 15:17:29 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,21 @@ void	signal_handle_routine(int signum)
 
 void	routine (t_env **env)
 {
-	int		errors;
-
 	while (1)
 	{
-		read_commands(&errors);
+		if (read_commands() == MALLOC_ERROR)
+		{
+			ft_putendl_fd("minishell: Cannot allocate memory", 2);
+			nullify_g_str();
+			break;
+		}
 		signal(SIGINT, signal_handle_routine);
 		signal(SIGQUIT, signal_handle_routine);
 		if (!g_input_str)
 			g_input_str = ft_strdup("");
 		//printf("|%s|\n", g_input_str);
 		handle_commands(g_input_str, env);
-		if (g_input_str)
-		{
-			g_input_str[0] = '\0';
-			//free(str);
-		}
+		nullify_g_str();
 	}
 }
 
@@ -78,21 +77,25 @@ int	main(int argc, char **argv, char **envp)
 //	char **str = ft_split("", ';');
 	t_env *env;
 
-	env = get_env(envp);
-//	handle_commands(ft_strdup(""), &env);
+	if (!(env = get_env(envp)))
+		{
+			ft_putendl_fd("minishell: Cannot allocate memory", 2);
+			return (1);
+		}
 	///////////////////print env////////////////////////////
-	//t_env *begin;
-	//begin = env;
-	//while (env->next)
-	//{
-		//printf("%s|||%s\n", env->name, env->value);
-		//env = env->next;
-	//}
-	//printf("%s|||%s\n", env->name, env->value);
-	//env = begin;
+	/*
+	t_env *begin;
+	begin = env;
+	while (env->next)
+	{
+		printf("%s|||%s\n", env->name, env->value);
+		env = env->next;
+	}
+	printf("%s|||%s\n", env->name, env->value);
+	env = begin;
+	*/
 	///////////////////print env////////////////////////////
 	routine(&env);
-	//предварительный парсинг
 	free_env(&env);
 	return (0);
 }

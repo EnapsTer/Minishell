@@ -32,6 +32,7 @@ READ_PATH	= srcs/command_read/
 READ_EXE	= $(READ_PATH)read_utils.c\
 			  $(READ_PATH)core_logic.c\
 			  $(READ_PATH)syntax_utils.c\
+			  $(READ_PATH)remove_quoted_str.c\
 			  $(READ_PATH)errors_read.c\
 			  $(READ_PATH)signals.c\
 			  $(READ_PATH)handle_new_line.c\
@@ -40,6 +41,10 @@ READ_EXE	= $(READ_PATH)read_utils.c\
 BUILT_PATH	= srcs/builtins/
 BUILT_EXE	= $(BUILT_PATH)env.c\
 			  $(BUILT_PATH)pwd.c\
+			  $(BUILT_PATH)cd.c\
+			  $(BUILT_PATH)export.c\
+			  $(BUILT_PATH)unset.c\
+			  $(BUILT_PATH)export_utils.c\
 			  $(BUILT_PATH)echo.c
 #####i################################objects#######################################
 OBJ			= $(SRC:.c=.o)
