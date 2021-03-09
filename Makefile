@@ -45,7 +45,9 @@ BUILT_EXE	= $(BUILT_PATH)env.c\
 			  $(BUILT_PATH)export.c\
 			  $(BUILT_PATH)unset.c\
 			  $(BUILT_PATH)export_utils.c\
-			  $(BUILT_PATH)echo.c
+			  $(BUILT_PATH)echo.c\
+			  $(BUILT_PATH)exit.c
+
 #####i################################objects#######################################
 OBJ			= $(SRC:.c=.o)
 #####################################libft#######################################

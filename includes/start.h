@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:10:49 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/09 15:10:15 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/09 15:46:37 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int	echo(char **argv);
 int	pwd(void);
 int	cd(char **argv, t_env *env);
 int	ft_exit(char **argv, int *flag);
+int	ft_export(char **argv, t_env **env);
+int	unset(char **argv, t_env *env);
 
 /////////////export_builin//////////////
 

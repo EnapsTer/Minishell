@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/03 17:32:39 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/09 17:51:38 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,6 @@ char 	*get_command_path(char *name, t_env **env)
 	return (NULL);
 }
 
-// STDIN - 0 ==== stdin
-// STDOUT - 1 ===
-// file1 - 3  === file1
-
 int set_redirect(t_command *command)
 {
 	if (command->in != STDIN)
@@ -132,10 +128,48 @@ int		close_pipe_fd(t_command **commands, int i)
 {
 	if (i > 0 && commands[i]->in != STDIN && commands[i - 1]->out != STDOUT)
 		close(commands[i - 1]->out);
-	// cat 0 4  ---  ls 3 1
 	if (commands[i + 1] && commands[i]->out != STDOUT && commands[i + 1]->in != STDIN)
 		close(commands[i + 1]->in);
 	return (TRUE);
+}
+
+BOOL		is_builtin(char *name)
+{
+	if (!ft_strcmp(name, "echo"))
+		return (TRUE);
+	if (!ft_strcmp(name, "cd"))
+		return (TRUE);
+	if (!ft_strcmp(name, "env"))
+		return (TRUE);
+	if (!ft_strcmp(name, "exit"))
+		return (TRUE);
+	if (!ft_strcmp(name, "export"))
+		return (TRUE);
+	if (!ft_strcmp(name, "pwd"))
+		return (TRUE);
+	if (!ft_strcmp(name, "unset"))
+		return (TRUE);
+	return (FALSE);
+}
+
+BOOL		run_builtin(char **argv, t_env **envp)
+{
+	int *exit_flag = NULL;
+	if (!ft_strcmp(argv[0], "echo"))
+		return (echo(argv));
+	if (!ft_strcmp(argv[0], "cd"))
+		return (cd(argv, *envp));
+	if (!ft_strcmp(argv[0], "env"))
+		return (env(*envp));
+	if (!ft_strcmp(argv[0], "exit"))
+		return (ft_exit(argv, exit_flag));
+	if (!ft_strcmp(argv[0], "export"))
+		return (ft_export(argv, envp));
+	if (!ft_strcmp(argv[0], "pwd"))
+		return (pwd());
+	if (!ft_strcmp(argv[0], "unset"))
+		return (unset(argv, *envp));
+	return (FALSE);
 }
 
 int execute_command(t_command **commands, int i, t_env **env)
@@ -144,17 +178,23 @@ int execute_command(t_command **commands, int i, t_env **env)
 	char 	*path;
 
 	set_redirect(commands[i]);
-	if ((pid = fork()) <= ERROR)
-		return (ERROR);
-	if (pid == 0)
+	if (is_builtin(commands[i]->args[0]))
 	{
-		if (!(path = get_command_path(commands[i]->args[0], env)))
-			exit(1);
-		//error
-		close_pipe_fd(commands, i);
-		if (execve(path, commands[i]->args, build_envp(env)) == ERROR)
+		run_builtin(commands[i]->args, env);
+	}
+	else
+	{
+		if ((pid = fork()) <= ERROR)
 			return (ERROR);
-
+		if (pid == 0)
+		{
+			close_pipe_fd(commands, i);
+			if (!(path = get_command_path(commands[i]->args[0], env)))
+				exit(1);
+			//error
+			if (execve(path, commands[i]->args, build_envp(env)) == ERROR)
+				return (ERROR);
+		}
 	}
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 17:45:55 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/08 22:16:19 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/09 15:46:37 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_env	*add_env(t_env *begin, char *envp)
 	while (begin->next)
 		begin = begin->next;
 	begin->next = new;
+	return (begin);
 }
 
 t_env	*get_env(char **envp)
