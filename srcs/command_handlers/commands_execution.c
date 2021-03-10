@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/09 17:51:38 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/09 17:55:14 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,12 +178,12 @@ int execute_command(t_command **commands, int i, t_env **env)
 	char 	*path;
 
 	set_redirect(commands[i]);
-	if (is_builtin(commands[i]->args[0]))
-	{
-		run_builtin(commands[i]->args, env);
-	}
-	else
-	{
+//	if (is_builtin(commands[i]->args[0]))
+//	{
+//		run_builtin(commands[i]->args, env);
+//	}
+//	else
+//	{
 		if ((pid = fork()) <= ERROR)
 			return (ERROR);
 		if (pid == 0)
@@ -195,7 +195,7 @@ int execute_command(t_command **commands, int i, t_env **env)
 			if (execve(path, commands[i]->args, build_envp(env)) == ERROR)
 				return (ERROR);
 		}
-	}
+//	}
 	return (TRUE);
 }
 
@@ -209,7 +209,6 @@ int		execute_commands(t_command **commands, t_env **env)
 	if (init_stdfd(&stdfd) == ERROR)
 		return (ERROR);
 	i = 0;
-	// echo hello > file1 | ls
 	while (commands[i])
 	{
 		if (execute_command(commands, i, env) == ERROR)

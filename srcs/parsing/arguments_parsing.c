@@ -1,0 +1,143 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   arguments_parsing.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/10 14:30:46 by aherlind          #+#    #+#             */
+/*   Updated: 2021/03/10 17:26:43 by aherlind         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+#include "start.h"
+#include "delimiter_comparators.h"
+#include "strs_utils.h"
+#include "advanced_split.h"
+#include "arguments_parsing.h"
+
+
+
+int		get_parsed_arg_len (char *str, t_env *env)
+{
+	char 	*value_str;
+	char 	*env_value;
+	char	shield_char;
+	int		len;
+
+	shield_char = 0;
+	if (!str)
+		return (ERROR);
+	len = 0;
+	while (*str)
+	{
+		if (change_shield_char_value(&shield_char, str))
+			str++;
+		else if (is_masked(str, shield_char))
+		{
+			len++;
+			str += 2;
+		}
+		else if (*str == '$' && shield_char != '\'' )
+		{
+			if (!(value_str = get_value_str(++str)))
+				return (ERROR);
+			if (!(*value_str))
+				len++;
+			else if ((env_value = get_env_value(value_str, &env)))
+				len += ft_strlen(env_value);
+			str += ft_strlen(value_str);
+			free(value_str);
+			value_str = NULL;
+			if (!env_value && len == 0)
+				len++;
+		}
+		else
+		{
+			len++;
+			str++;
+		}
+	}
+	return (len);
+}
+
+char	*get_parsed_arg(char *str, t_env *env)
+{
+	char	shield_char;
+	char 	*value_str;
+	char	*env_value;
+	char 	*ret_str;
+	int		len;
+	int		i;
+
+	// echo $
+	if ((len = get_parsed_arg_len(str, env)) == ERROR)
+		return (NULL);
+	if (!(ret_str = ft_calloc(sizeof(char), len + 1)))
+		return (NULL);
+	i = 0;
+	shield_char = 0;
+	while (i < len)
+	{
+		if (change_shield_char_value(&shield_char, str))
+			str++;
+		else if (is_masked(str, shield_char))
+		{
+			ret_str[i++] = *(str + 1);
+			str += 2;
+		}
+		else if (*str == '$' && shield_char != '\'')
+		{
+			if (!(value_str = get_value_str(++str)))
+			{
+				free(ret_str);
+				return (NULL);
+			}
+			if (!(*value_str))
+				ret_str[i++] = *(str - 1);
+			else if ((env_value = get_env_value(value_str, &env)))
+			{
+				ft_strlcat(ret_str, env_value, len + 1);
+				i += ft_strlen(env_value);
+			}
+			else if (len == 1)
+				ret_str[i++] = '\r';
+			str += ft_strlen(value_str);
+			free(value_str);
+			value_str = NULL;
+		}
+		else
+			ret_str[i++] = *str++;
+	}
+	ret_str[i] = '\0';
+	return (ret_str);
+}
+
+char	**get_arguments(char *str, t_env *env)
+{
+	char	**t_args;
+	char	**args;
+	int 	i;
+
+	if (!(t_args = advanced_split(str, is_redirect_and_space, 0)))
+		return (NULL);
+	if (!(args = (char **)malloc(sizeof(char *) * str_arr_len(t_args) + 1)))
+		return (NULL);
+	i = 0;
+	while (t_args[i])
+	{
+		if (!(args[i] = get_parsed_arg(t_args[i], env)))
+		{
+			free_str_arr(&t_args);
+			free_str_arr(&args);
+			return (NULL);
+		}
+		i++;
+	}
+	args[i] = NULL;
+	free_str_arr(&t_args);
+	return (args);
+}
+
+

@@ -10,7 +10,9 @@ SRC			= $(PARSE_EXE)\
 #####################################parse#######################################
 PARSER_PATH	= srcs/parsing/
 PARSE_EXE	= $(PARSER_PATH)advanced_split.c\
-			  $(PARSER_PATH)command_parsing.c
+			  $(PARSER_PATH)command_parsing.c\
+			  $(PARSER_PATH)arguments_parsing.c
+
 #####################################execution#################################
 EXECUTION_PATH	= srcs/command_handlers/
 EXECUTION_EXE	= $(EXECUTION_PATH)commands_handler.c\
@@ -26,7 +28,8 @@ UTILS_EXE	= $(UTILS_PATH)advanced_split_utils.c\
 			  $(UTILS_PATH)delimiter_comparators.c\
 			  $(UTILS_PATH)commands_utils.c\
 			  $(UTILS_PATH)strs_utils.c\
-			  $(UTILS_PATH)command_io_utils.c
+			  $(UTILS_PATH)command_io_utils.c\
+			  $(UTILS_PATH)arguments_parsing_utils.c
 #####################################reading#######################################
 READ_PATH	= srcs/command_read/
 READ_EXE	= $(READ_PATH)read_utils.c\
@@ -70,7 +73,9 @@ HDR			= $(INC)minishell.h\
 			  $(INC)commands_execution.h\
 			  $(INC)get_next_line.h\
 			  $(INC)start.h\
-			  $(INC)environment_utils.h
+			  $(INC)environment_utils.h\
+			  $(INC)arguments_parsing.h
+
 
 .c.o: $(HDR)
 	gcc $(CFLAGS) -I$(INC) -c $< -o $(<:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/09 15:46:37 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/10 15:24:53 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,6 @@ void	routine (t_env **env)
 
 int	main(int argc, char **argv, char **envp)
 {
-//	char **strs = advanced_split("echo '$PATH'", is_semicolon, 1);
-//
-//	while (*strs)
-//	{
-//		printf("%s\n", *strs);
-//		strs++;
-//	}
-//	char **str = ft_split("", ';');
 	t_env *env;
 
 	if (!(env = get_env(envp)))

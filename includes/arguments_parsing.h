@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strs_utils.h                                       :+:      :+:    :+:   */
+/*   arguments_parsing.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/28 15:50:28 by aherlind          #+#    #+#             */
-/*   Updated: 2021/01/28 15:50:49 by aherlind         ###   ########.fr       */
+/*   Created: 2021/03/10 17:26:47 by aherlind          #+#    #+#             */
+/*   Updated: 2021/03/10 17:34:47 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRS_UTILS_H
-#define STRS_UTILS_H
+#ifndef ARGUMENTS_PARSING_H
+#define ARGUMENTS_PARSING_H
 
-int		str_arr_len(char **arr);
+char	**get_arguments(char *str, t_env *env);
 
-int		str_arr_append(char ***arr, char *line);
+BOOL 	change_shield_char_value(char *shield_char, char *str);
 
-void	free_str_arr(char ***arr);
+BOOL is_masked(char *str, char shield_char);
+
+char 	*get_value_str(char *str);
+
+int 	skip_words(char *str);
+
 #endif

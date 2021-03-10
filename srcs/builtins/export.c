@@ -60,7 +60,8 @@ void	change_var_value(char *name, char **buf, t_env **env)
 		}
 		tmp = (tmp)->next;
 	}
-	free (*buf);
+	free(*buf);
+	*buf = NULL;
 }
 
 int	is_env_declared(char *name, t_env *env)
