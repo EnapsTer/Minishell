@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:08:30 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/09 15:46:37 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/09 18:28:45 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,21 @@ int	echo(char **argv)
 
 	count = 1;
 	flag_n = 0;
-	while (argv[count] && !ft_strcmp(argv[count], "-n"))
-	{
-		count++;
-		flag_n++;
-	}
 	while (argv[count])
 	{
-		if (count > 1 + flag_n)
+		if (!ft_strcmp(argv[count], "-n"))
+			flag_n++;
+		count++;
+	}
+	count = 1;
+	while (argv[count + flag_n])
+	{
+		if (count > 1)
 			ft_putstr_fd(" ", 1);
 		ft_putstr_fd(argv[count + flag_n], 1);
 		count++;
 	}
 	if (!flag_n)
 		ft_putstr_fd("\n", 1);
-	exit (0);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 20:03:26 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/09 15:46:37 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/10 16:28:06 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,19 @@
 #include "delimiter_comparators.h"
 #include <stdlib.h>
 #include "start.h"
+
+int	is_valid_env_name(char *str)
+	{
+		if (ft_isdigit(str[0]))
+			return (0);
+		while (*str)
+			{
+				if (!ft_isdigit(*str) && !ft_isalpha(*str) && *str != '_')
+					return (0);
+				str++;
+			}
+		return (1);
+	}
 
 char	*get_envp_value(char *name, char **envp)
 {

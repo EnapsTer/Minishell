@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:31:30 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/05 18:38:32 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/10 18:07:36 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,11 @@ int	cd(char **argv, t_env *env)
 	char	*buf;
 	char	*path;
 
-	buf = NULL;
-	if (!getcwd(buf, 0))
+	if (!(buf = getcwd(NULL, 0)))
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(strerror(errno), 2);
-		exit (1);
+		ft_putstr_fd("minishell: cd: getcwd: ", 2);
+		ft_putendl_fd(strerror(errno), 2);
+		return (1);
 	}
 	if (get_env_value("OLDPWD", &env))
 		change_var_value("OLDPWD", &buf, &env);
@@ -37,24 +36,24 @@ int	cd(char **argv, t_env *env)
 		if (!path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set", 2);
-			exit (1);
+			return (1);
 		}
 	}
 	else
 		path = argv[1];
 	if (chdir(path) < 0)
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(strerror(errno), 2);
-		exit (1);
+		ft_putstr_fd("minishell: cd: chdir: ", 2);
+		ft_putendl_fd(strerror(errno), 2);
+		return (1);
 	}
-	if (!getcwd(buf, 0))
+	if (!(buf = getcwd(NULL, 0)))
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(strerror(errno), 2);
-		exit (1);
+		ft_putstr_fd("minishell: cd: getcwd: ", 2);
+		ft_putendl_fd(strerror(errno), 2);
+		return (1);
 	}
 	if (get_env_value("PWD", &env))
 		change_var_value("PWD", &buf, &env);
-	exit (0);
+	return (0);
 }

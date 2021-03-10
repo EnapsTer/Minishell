@@ -6,12 +6,13 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 22:11:45 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/05 18:49:35 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/09 19:47:11 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "start.h"
 #include <libft.h>
+#include "strs_utils.h"
 
 void	print_names(char **names, t_env *env)
 {
@@ -21,14 +22,18 @@ void	print_names(char **names, t_env *env)
 	i = 0;
 	while (names[i])
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(names[i], 1);
-		if((value = get_env_value(names[i], &env)))
+		if (ft_strcmp(names[i], "_"))
 		{
-			ft_putstr_fd("=", 1);
-			putstr_export_fd(value, 1);
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(names[i], 1);
+			if((value = get_env_value(names[i], &env)))
+			{
+				ft_putstr_fd("=", 1);
+				putstr_export_fd(value, 1);
+			}
 			ft_putstr_fd("\n", 1);
 		}
+		i++;
 	}
 }
 
@@ -39,7 +44,7 @@ void	print_sorted(t_env *env)
 	names = env_to_array(env);
 	ft_sort_array(names);
 	print_names(names, env);
-	free_array(&names);
+	free_str_arr(&names);
 }
 
 void	change_var_value(char *name, char **buf, t_env **env)
@@ -116,19 +121,21 @@ int	ft_export(char **argv, t_env **env)
 	int	count;
 	int	out;
 
-	count = 0;
+	count = 1;
 	out = 0;
 	if (!argv[1])
+	{
 		print_sorted(*env);
+		return (out);
+	}
 	while (argv[count])
 	{
-		if (!exp_new_var(env, argv[count]))
+		if (exp_new_var(env, argv[count]))
 		{
 			ft_putstr_fd("minishell: export: `", 2);
 			ft_putstr_fd(argv[count], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
 			out = 1;
-			continue;
 		}
 		count++;
 	}

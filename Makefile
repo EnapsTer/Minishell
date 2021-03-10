@@ -12,7 +12,6 @@ PARSER_PATH	= srcs/parsing/
 PARSE_EXE	= $(PARSER_PATH)advanced_split.c\
 			  $(PARSER_PATH)command_parsing.c\
 			  $(PARSER_PATH)arguments_parsing.c
-
 #####################################execution#################################
 EXECUTION_PATH	= srcs/command_handlers/
 EXECUTION_EXE	= $(EXECUTION_PATH)commands_handler.c\
@@ -50,7 +49,6 @@ BUILT_EXE	= $(BUILT_PATH)env.c\
 			  $(BUILT_PATH)export_utils.c\
 			  $(BUILT_PATH)echo.c\
 			  $(BUILT_PATH)exit.c
-
 #####i################################objects#######################################
 OBJ			= $(SRC:.c=.o)
 #####################################libft#######################################

@@ -6,25 +6,12 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 19:35:30 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/05 19:03:30 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/10 16:28:58 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "start.h"
 #include <libft.h>
-
-int	is_valid_env_name(char *str)
-	{
-		if (ft_isdigit(str[0]))
-			return (0);
-		while (*str)
-			{
-				if (!ft_isdigit(*str) && !ft_isalpha(*str) && *str != '_')
-					return (0);
-				str++;
-			}
-		return (1);
-	}
 
 int	unset(char **argv, t_env *env)
 {
