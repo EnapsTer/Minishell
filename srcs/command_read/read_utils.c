@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 16:42:33 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 22:19:26 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 #include <libft.h>
 #include "start.h"
 
-int	ministrlen(char *str)
+int		ministrlen(char *str)
 {
 	int	count;
 
 	count = 0;
 	if (!str)
-		return(0);
+		return (0);
 	while (*str++)
 		count++;
 	return (count);
@@ -60,4 +60,3 @@ char	*superstrjoin(char *s1, char *s2)
 		free(cs1);
 	return (result);
 }
-

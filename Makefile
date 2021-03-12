@@ -48,6 +48,7 @@ BUILT_EXE	= $(BUILT_PATH)env.c\
 			  $(BUILT_PATH)export.c\
 			  $(BUILT_PATH)unset.c\
 			  $(BUILT_PATH)export_utils.c\
+			  $(BUILT_PATH)export_print_sorted.c\
 			  $(BUILT_PATH)echo.c\
 			  $(BUILT_PATH)exit.c
 #####i################################objects#######################################
@@ -82,7 +83,7 @@ HDR			= $(INC)minishell.h\
 
 $(NAME): $(OBJ) $(HDR)
 	make -C $(L_PATH)
-	gcc $(CFLAGS) $(SANITIZE) $(L_PATH)$(L_NAME) $(OBJ) -o $(NAME)
+	gcc $(CFLAGS) $(L_PATH)$(L_NAME) $(OBJ) -o $(NAME)
 
 all: $(NAME)
 

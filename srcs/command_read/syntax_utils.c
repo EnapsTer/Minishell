@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 17:31:34 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/09 15:46:37 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 23:03:47 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ int	is_mirrored(char *str, int i)
 
 	count = 0;
 	while (--i >= 0)
-		{
-			if (str[i] == '\\')
-				count++;
-			else
-				break;
-		}
+	{
+		if (str[i] == '\\')
+			count++;
+		else
+			break ;
+	}
 	if (count % 2 == 0)
 		return (0);
 	else
@@ -57,7 +57,7 @@ int	ends_with_semicolon(char *str)
 	int	count;
 
 	count = 0;
-	if(!str)
+	if (!str || !*str)
 		return (0);
 	while (str[count + 1])
 		count++;

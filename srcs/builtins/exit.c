@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 17:35:31 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/11 19:04:30 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/12 21:46:08 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	handle_sign(char **str, int *sign)
 static int	get_number(char *str)
 {
 	long long int	out;
-	int			sign;
+	int				sign;
 
 	out = 0;
 	sign = 1;
@@ -53,16 +53,16 @@ static int	get_number(char *str)
 	return (sign * out);
 }
 
-static int			check_number(char *str)
+static int	check_number(char *str)
 {
 	long long int	out;
-	int			sign;
+	int				sign;
 
 	out = 0;
 	sign = 1;
 	ft_skip_spaces(&str);
 	handle_sign(&str, &sign);
-	if ((*str < '0') || (*str >= '9'))
+	if ((*str < '0') || (*str > '9'))
 		return (0);
 	while ((*str >= '0') && (*str <= '9'))
 	{
@@ -80,7 +80,7 @@ static int			check_number(char *str)
 	return (1);
 }
 
-int ft_exit(char **argv)
+int			ft_exit(char **argv)
 {
 	unsigned char	out;
 
@@ -100,7 +100,7 @@ int ft_exit(char **argv)
 		return (1);
 	}
 	else
-		out = (unsigned char)get_number;
+		out = (unsigned char)get_number(argv[1]);
 	nullify_g_str();
-	return((int)out);
+	return ((int)out);
 }

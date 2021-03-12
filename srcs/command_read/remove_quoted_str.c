@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 17:59:10 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 21:51:34 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ static int	get_final_strlen(char *str)
 	return (strlen);
 }
 
-char *remove_quoted_str(char *str, t_env **env, int *continue_flag)
+char		*remove_quoted_str(char *str, t_env **env, int *continue_flag)
 {
 	char	*out;
-	int	strlen;
+	int		strlen;
 
 	if (!str || str[0] == '\0')
 	{
