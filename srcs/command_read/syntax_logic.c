@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 17:37:11 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/09 15:46:37 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/11 15:14:40 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,26 @@ int	is_piped_syntax_correct(char *str)
 	return (1);
 }
 
-int	is_string_error(char *str)
+int	is_string_error(char *str, t_env **env, int *continue_flag)
 {
 	if (!str)
 		return (0);
 	else if (ft_strnstr(str, ";;", ministrlen(str)))
-			print_reading_error("minishell: syntax error near unexpected token `;;'\n");
+			print_syntax_error("token `;;'", env, continue_flag);
 	else if (ft_strnstr(str, "||", ministrlen(str)))
-			print_reading_error("minishell: syntax error near unexpected token `||'\n");
+			print_syntax_error("token `||'", env, continue_flag);
 	else if (ft_strnstr(str, ">|", ministrlen(str)))
-			print_reading_error("minishell: syntax error near unexpected token `|'\n");
+			print_syntax_error("token `|'", env, continue_flag);
 	else if (ft_strnstr(str, ">>>", ministrlen(str)))
-			print_reading_error("minishell: syntax error near unexpected token `>'\n");
+			print_syntax_error("token `>'", env, continue_flag);
 	else if (ft_strnstr(str, "<<", ministrlen(str)))
-			print_reading_error("minishell: syntax error near unexpected token `<'\n");
+			print_syntax_error("token `<'", env, continue_flag);
 	else if (ft_strnstr(str, "><", ministrlen(str)))
-			print_reading_error("minishell: syntax error near unexpected token `<'\n");
+			print_syntax_error("token `<'", env, continue_flag);
 	else if (str[0] == ';')
-			print_reading_error("minishell: syntax error near unexpected token `;'\n");
+			print_syntax_error("token `;'", env, continue_flag);
 	else if (str[0] == '|')
-			print_reading_error("minishell: syntax error near unexpected token `|'\n");
+			print_syntax_error("token `|'", env, continue_flag);
 	else
 		return (0);
 	return (1);

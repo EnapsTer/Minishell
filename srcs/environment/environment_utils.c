@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 20:03:26 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/10 16:28:06 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/10 21:23:05 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ char	**build_envp(t_env **env)
 	size = 0;
 	while (tmp)
 	{
-		result[size++] = superstrjoin(ft_strjoin(tmp->name, "="), tmp->value);
+		if (tmp->value)
+			result[size++] = superstrjoin(ft_strjoin(tmp->name, "="), tmp->value);
 		tmp = tmp->next;
 	}
 	result[size] = NULL;

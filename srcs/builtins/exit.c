@@ -6,11 +6,33 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 17:35:31 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/09 18:04:03 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/11 19:04:30 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+
+static void	ft_skip_spaces(char **str)
+{
+	if (str && *str)
+	{
+		while (**str == ' ' || **str == '\t')
+			*str = *str + 1;
+	}
+}
+
+static void	handle_sign(char **str, int *sign)
+{
+	if (str && *str)
+	{
+		if (**str == '-' || **str == '+')
+		{
+			if (**str == '-')
+				*sign = -1;
+			*str = *str + 1;
+		}
+	}
+}
 
 static int	get_number(char *str)
 {
@@ -19,21 +41,14 @@ static int	get_number(char *str)
 
 	out = 0;
 	sign = 1;
-	while (*str == ' ' || *str == '\t')
-		str++;
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			sign = -1;
-		++str;
-	}
+	ft_skip_spaces(&str);
+	handle_sign(&str, &sign);
 	while ((*str >= '0') && (*str <= '9'))
 	{
 		out = 10 * out + (*str - '0');
 		++str;
 	}
-	while (*str == ' ' || *str == '\t')
-		str++;
+	ft_skip_spaces(&str);
 	return (sign * out);
 }
 
@@ -44,14 +59,8 @@ static int			check_number(char *str)
 
 	out = 0;
 	sign = 1;
-	while (*str == ' ' || *str == '\t')
-		str++;
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			sign = -1;
-		++str;
-	}
+	ft_skip_spaces(&str);
+	handle_sign(&str, &sign);
 	if ((*str < '0') || (*str >= '9'))
 		return (0);
 	while ((*str >= '0') && (*str <= '9'))
@@ -64,8 +73,7 @@ static int			check_number(char *str)
 		out = 10 * out + (*str - '0');
 		++str;
 	}
-	while (*str == ' ' || *str == '\t')
-		str++;
+	ft_skip_spaces(&str);
 	if (*str != '\0')
 		return (0);
 	return (1);
@@ -87,11 +95,11 @@ int	ft_exit(char **argv, int *flag)
 	}
 	else if (argv[2])
 	{
-		ft_putstr_fd("minishell: too many arguments\n", 2);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return (1);
 	}
 	else
 		out = (unsigned char)get_number;
-	*flag = 1;
+	*flag = -1;
 	return((int)out);
 }

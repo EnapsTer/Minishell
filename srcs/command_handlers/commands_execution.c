@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/09 17:55:14 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 15:10:29 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,9 @@ BOOL		is_builtin(char *name)
 
 BOOL		run_builtin(char **argv, t_env **envp)
 {
-	int *exit_flag = NULL;
+	int exit_flag;
+
+	exit_flag = 0;
 	if (!ft_strcmp(argv[0], "echo"))
 		return (echo(argv));
 	if (!ft_strcmp(argv[0], "cd"))
@@ -162,7 +164,7 @@ BOOL		run_builtin(char **argv, t_env **envp)
 	if (!ft_strcmp(argv[0], "env"))
 		return (env(*envp));
 	if (!ft_strcmp(argv[0], "exit"))
-		return (ft_exit(argv, exit_flag));
+		return (ft_exit(argv, &exit_flag));
 	if (!ft_strcmp(argv[0], "export"))
 		return (ft_export(argv, envp));
 	if (!ft_strcmp(argv[0], "pwd"))
@@ -178,12 +180,12 @@ int execute_command(t_command **commands, int i, t_env **env)
 	char 	*path;
 
 	set_redirect(commands[i]);
-//	if (is_builtin(commands[i]->args[0]))
-//	{
-//		run_builtin(commands[i]->args, env);
-//	}
-//	else
-//	{
+	if (is_builtin(commands[i]->args[0]))
+	{
+		run_builtin(commands[i]->args, env);
+	}
+	else
+	{
 		if ((pid = fork()) <= ERROR)
 			return (ERROR);
 		if (pid == 0)
@@ -195,7 +197,7 @@ int execute_command(t_command **commands, int i, t_env **env)
 			if (execve(path, commands[i]->args, build_envp(env)) == ERROR)
 				return (ERROR);
 		}
-//	}
+	}
 	return (TRUE);
 }
 

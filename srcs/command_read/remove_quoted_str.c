@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 17:59:10 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/08 18:07:05 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/11 16:12:44 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "start.h"
 #include <libft.h>
 
-static void	handle_double_quote(int *quote_flag, int *strlen, char **out)
+static void	handle_single_quote(int *quote_flag, int *strlen, char **out)
 {
 	if (*quote_flag == 1 && *quote_flag != 2)
 		*quote_flag = 0;
@@ -27,7 +27,7 @@ static void	handle_double_quote(int *quote_flag, int *strlen, char **out)
 	}
 }
 
-static void	handle_single_quote(int *quote_flag, int *strlen, char **out)
+static void	handle_double_quote(int *quote_flag, int *strlen, char **out)
 {
 	if (*quote_flag == 2 && *quote_flag != 1)
 		*quote_flag = 0;
@@ -85,10 +85,12 @@ static int	get_final_strlen(char *str)
 			strlen++;
 		i++;
 	}
+	if (quote_flag > 0)
+		return (-1);
 	return (strlen);
 }
 
-char *remove_quoted_str(char *str)
+char *remove_quoted_str(char *str, t_env **env, int *continue_flag)
 {
 	char	*out;
 	int	strlen;
@@ -99,8 +101,16 @@ char *remove_quoted_str(char *str)
 		return (out);
 	}
 	strlen = get_final_strlen(str);
-	if (!(out = (char*)malloc(sizeof(char) * (strlen + 1))))
+	if (strlen == -1)
+	{
+		print_syntax_error("open quotes", env, continue_flag);
 		return (NULL);
+	}
+	if (!(out = (char*)malloc(sizeof(char) * (strlen + 1))))
+	{
+		*continue_flag = MALLOC_ERROR;
+		return (NULL);
+	}
 	get_final_str(str, &out);
 	return (out);
 }

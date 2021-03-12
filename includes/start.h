@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:10:49 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/09 15:46:37 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/11 18:35:32 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,11 @@ char	*superstrjoin(char *s1, char *s2);
 int	ministrlen(char *str);
 void	strzero(char *str);
 void	nullify_g_str(void);
+void	nullify_str(char **buf);
 
 /////////////errors_read//////////////
 
-void	print_reading_error(char *str);
+void	print_syntax_error(char *str, t_env **env, int *continue_flag);
 
 /////////////signals_read//////////////
 
@@ -58,17 +59,19 @@ int	ends_with_semicolon(char *str);
 
 /////////////syntax_logic//////////////
 
-char *remove_quoted_str(char *str);
+char *remove_quoted_str(char *str, t_env **env, int *continue_flag);
 int	is_semicoloned_syntax_correct(char *str);
-int	is_string_error(char *str);
+int	is_string_error(char *str, t_env **env, int *continue_flag);
 int	is_piped_syntax_correct(char *str);
 
 /////////////environment_init_and_free//////////////
 
 t_env	*get_env(char **envp);
-t_env	*add_env(t_env *begin, char *envp);
+t_env	*add_env(t_env *env, char *envp);
 void	free_env_elem(t_env **env);
 void	free_env(t_env **env);
+t_env	*create_env(char *name, char *value, t_env *next);
+void	put_env_back(t_env *new, t_env *env);
 
 void	delete_env_var(char *name, t_env *env);
 int	is_valid_env_name(char *str);
@@ -76,14 +79,11 @@ char	*get_env_value(char *name, t_env **env);
 void	free_env_elem(t_env **env);
 /////////////core_read_logic//////////////
 
-int	handle_new_line(int *continue_flag, char buf[131072], int count);
-void	exit_shell_from_read(int *continue_flag);
-void	continue_read_after_eof(int *continue_flag, char buf[131072]);
-int	read_commands(void);
+int	read_commands(t_env **env);
 
 /////////////handle_new_read_line//////////////
 
-int	is_read_syntax_ok(int *continue_flag);
+int	is_read_syntax_ok(int *continue_flag, t_env **env);
 
 /////////////builtins_except_export//////////////
 

@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 16:42:33 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/09 15:46:37 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/11 13:44:13 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,6 @@ void	strzero(char *str)
 	{
 		*str = '\0';
 		str++;
-	}
-}
-
-void	nullify_g_str(void)
-{
-	char	*tmp;
-
-	if (g_input_str)
-	{
-		tmp = g_input_str;
-		strzero(g_input_str);
-		g_input_str = NULL;
-		free(tmp);
 	}
 }
 

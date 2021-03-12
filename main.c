@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/10 15:24:53 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/11 15:07:54 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	routine (t_env **env)
 {
 	while (1)
 	{
-		if (read_commands() == MALLOC_ERROR)
+		if (read_commands(env) == MALLOC_ERROR)
 		{
 			ft_putendl_fd("minishell: Cannot allocate memory", 2);
 			nullify_g_str();
@@ -59,7 +59,6 @@ void	routine (t_env **env)
 		signal(SIGQUIT, signal_handle_routine);
 		if (!g_input_str)
 			g_input_str = ft_strdup("");
-		//printf("|%s|\n", g_input_str);
 		handle_commands(g_input_str, env);
 		nullify_g_str();
 	}
