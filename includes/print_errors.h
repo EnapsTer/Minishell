@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   advanced_split_utils.h                             :+:      :+:    :+:   */
+/*   print_errors.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/26 17:17:21 by aherlind          #+#    #+#             */
+/*   Created: 2021/03/11 17:49:50 by aherlind          #+#    #+#             */
 /*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ADVANCED_SPLIT_UTILS_H
-#define ADVANCED_SPLIT_UTILS_H
+#ifndef PRINT_ERRORS_H
+#define PRINT_ERRORS_H
 
-BOOL change_shield_char (char *shield_char, char *str, int (*is_delimiter)(char *), int shield);
+void 	print_error(char *command, char *message);
 
-int		get_str_len(char *str, int (*is_delimiter)(char *), int shielding);
+void 	print_error_with_exit(char *command, char *message, int exit_code);
 
-int		fill_strs(char **strs, char *str, int (*is_delimiter)(char *), int shielding);
-
-int		count_strs(char *str, int (is_delimiter)(char *), int shielding);
-
-char	*get_filled_str(char **str, int (*is_delimiter)(char *), int shielding);
 #endif

@@ -10,8 +10,8 @@ set(EXECUTION_EXE srcs/command_handlers/commands_handler.c srcs/command_handlers
 set(COMMANDS_READ_EXE srcs/command_read/remove_quoted_str.c srcs/command_read/core_logic.c srcs/command_read/errors_read.c srcs/command_read/handle_new_line.c srcs/command_read/read_utils.c srcs/command_read/signals.c srcs/command_read/syntax_utils.c srcs/command_read/syntax_logic.c)
 set(ENVIRONMENT_EXE srcs/environment/environment_utils.c srcs/environment/initialization_logic.c)
 set(PARSE_EXE srcs/parsing/advanced_split.c srcs/parsing/command_parsing.c srcs/parsing/arguments_parsing.c)
-set(UTILS_EXE srcs/utils/advanced_split_utils.c srcs/utils/delimiter_comparators.c srcs/utils/commands_utils.c srcs/utils/command_io_utils.c srcs/utils/strs_utils.c srcs/utils/arguments_parsing_utils.c)
-set(INCLUDES includes/start.h includes/minishell.h includes/libft.h includes/advanced_split.h includes/advanced_split_utils.h includes/strs_utils.h includes/delimiter_comparators.h includes/command_handlers.h includes/commands_parser.h includes/commands_utils.h includes/commands_execution.h includes/environment_utils.h includes/arguments_parsing.h)
+set(UTILS_EXE srcs/utils/advanced_split_utils.c srcs/utils/delimiter_comparators.c srcs/utils/commands_utils.c srcs/utils/command_io_utils.c srcs/utils/strs_utils.c srcs/utils/arguments_parsing_utils.c srcs/utils/print_error_utils.c)
+set(INCLUDES includes/start.h includes/minishell.h includes/libft.h includes/advanced_split.h includes/advanced_split_utils.h includes/strs_utils.h includes/delimiter_comparators.h includes/command_handlers.h includes/commands_parser.h includes/commands_utils.h includes/commands_execution.h includes/environment_utils.h includes/arguments_parsing.h includes/print_errors.h)
 
 add_subdirectory(libft)
 

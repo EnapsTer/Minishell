@@ -6,18 +6,16 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/12 15:10:29 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "environment_utils.h"
 #include "libft.h"
 #include "delimiter_comparators.h"
 #include "advanced_split.h"
 #include "strs_utils.h"
 #include "commands_utils.h"
-#include <unistd.h>
 #include <stdlib.h>
 #include <dirent.h>
 #include <unistd.h>
@@ -26,7 +24,10 @@
 #include <sys/wait.h>
 #include "start.h"
 #include "environment_utils.h"
-
+#include "print_errors.h"
+#include <errno.h>
+#include <string.h>
+#include <sys/stat.h>
 
 int 	is_in_directory(char *file_name, char *path)
 {
@@ -154,9 +155,7 @@ BOOL		is_builtin(char *name)
 
 BOOL		run_builtin(char **argv, t_env **envp)
 {
-	int exit_flag;
-
-	exit_flag = 0;
+	int *exit_flag = NULL;
 	if (!ft_strcmp(argv[0], "echo"))
 		return (echo(argv));
 	if (!ft_strcmp(argv[0], "cd"))
@@ -164,7 +163,7 @@ BOOL		run_builtin(char **argv, t_env **envp)
 	if (!ft_strcmp(argv[0], "env"))
 		return (env(*envp));
 	if (!ft_strcmp(argv[0], "exit"))
-		return (ft_exit(argv, &exit_flag));
+		return (ft_exit(argv, exit_flag));
 	if (!ft_strcmp(argv[0], "export"))
 		return (ft_export(argv, envp));
 	if (!ft_strcmp(argv[0], "pwd"))
@@ -176,28 +175,35 @@ BOOL		run_builtin(char **argv, t_env **envp)
 
 int execute_command(t_command **commands, int i, t_env **env)
 {
-	pid_t	pid;
-	char 	*path;
+	pid_t		pid;
+	char		*path;
+	struct stat	file_stat;
 
 	set_redirect(commands[i]);
-	if (is_builtin(commands[i]->args[0]))
-	{
-		run_builtin(commands[i]->args, env);
-	}
-	else
-	{
-		if ((pid = fork()) <= ERROR)
-			return (ERROR);
-		if (pid == 0)
-		{
-			close_pipe_fd(commands, i);
-			if (!(path = get_command_path(commands[i]->args[0], env)))
-				exit(1);
-			//error
-			if (execve(path, commands[i]->args, build_envp(env)) == ERROR)
+//	if (commands[i]->args)
+//	{
+//		if (is_builtin(commands[i]->args[0]))
+//		{
+//			run_builtin(commands[i]->args, env);
+//		}
+//		else
+//		{
+			if ((pid = fork()) <= ERROR)
 				return (ERROR);
-		}
-	}
+			if (pid == 0)
+			{
+				close_pipe_fd(commands, i);
+				if (!(path = get_command_path(commands[i]->args[0], env)))
+				{
+					print_error_with_exit(path, "command not found", 127);
+				}
+				if (stat(path, &file_stat) == ERROR)
+					print_error_with_exit(path, strerror(errno), 127);
+				if (execve(path, commands[i]->args, build_envp(env)) == ERROR)
+					print_error_with_exit(path, strerror(errno), 126);
+			}
+//		}
+//	}
 	return (TRUE);
 }
 
@@ -207,6 +213,7 @@ int		execute_commands(t_command **commands, t_env **env)
 	int 	i;
 	int 	status;
 	t_fd	stdfd;
+	int 	ret;
 
 	if (init_stdfd(&stdfd) == ERROR)
 		return (ERROR);
@@ -221,5 +228,6 @@ int		execute_commands(t_command **commands, t_env **env)
 	}
 	while (wait(&status) > 0)
 		;
-	return (TRUE);
+	ret = WEXITSTATUS(status);
+	return (ret);
 }

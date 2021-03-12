@@ -6,12 +6,13 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 17:24:12 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/10 17:24:12 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdlib.h>
+#include "libft.h"
 #include "delimiter_comparators.h"
 
 int 	skip_words(char *str)
@@ -24,6 +25,13 @@ int 	skip_words(char *str)
 	return (cnt);
 }
 
+BOOL	is_valid_env_name_char(char c)
+{
+	if (ft_isalpha(c) || c == '_' || ft_isdigit(c))
+		return (TRUE);
+	return (FALSE);
+}
+
 char 	*get_value_str(char *str)
 {
 	int		len;
@@ -31,8 +39,11 @@ char 	*get_value_str(char *str)
 	int 	i;
 
 	len = 0;
-	while (str[len] && str[len] != ' ' && !is_shield(&str[len]) && str[len] != '\\')
+	if (str[len] == '?')
 		len++;
+	else
+		while (str[len] && is_valid_env_name_char(str[len]))
+			len++;
 	if (!(value_str = malloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/11 15:07:54 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/12 13:19:22 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ void	signal_handle_routine(int signum)
 
 void	routine (t_env **env)
 {
+	int		ret;
+	char 	*exit_code;
+
 	while (1)
 	{
 		if (read_commands(env) == MALLOC_ERROR)
@@ -59,13 +62,21 @@ void	routine (t_env **env)
 		signal(SIGQUIT, signal_handle_routine);
 		if (!g_input_str)
 			g_input_str = ft_strdup("");
-		handle_commands(g_input_str, env);
+		ret = handle_commands(g_input_str, env);
+		exit_code = ft_itoa(ret);
+		change_var_value("?", &exit_code, env);
 		nullify_g_str();
 	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
+	// обработать $? и понять почему когда прога отрабатывает возвращаются разные код статусы
+	// почему то ошибка 127 когда просто нажимаю на контрол д обсудить с серегой
+	// сделать норм билтины с пайпами
+	// тесты на редиректы и пайпы
+	// обработать open когда не открывается файл
+	// спросить серегу про еще какие-то пункты
 	t_env *env;
 
 	if (!(env = get_env(envp)))

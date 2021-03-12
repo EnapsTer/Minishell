@@ -28,7 +28,8 @@ UTILS_EXE	= $(UTILS_PATH)advanced_split_utils.c\
 			  $(UTILS_PATH)commands_utils.c\
 			  $(UTILS_PATH)strs_utils.c\
 			  $(UTILS_PATH)command_io_utils.c\
-			  $(UTILS_PATH)arguments_parsing_utils.c
+			  $(UTILS_PATH)arguments_parsing_utils.c\
+			  $(UTILS_PATH)print_error_utils.c
 #####################################reading#######################################
 READ_PATH	= srcs/command_read/
 READ_EXE	= $(READ_PATH)read_utils.c\
@@ -72,7 +73,8 @@ HDR			= $(INC)minishell.h\
 			  $(INC)get_next_line.h\
 			  $(INC)start.h\
 			  $(INC)environment_utils.h\
-			  $(INC)arguments_parsing.h
+			  $(INC)arguments_parsing.h\
+			  $(INC)print_errors.h
 
 
 .c.o: $(HDR)

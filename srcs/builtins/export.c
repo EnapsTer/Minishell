@@ -6,13 +6,12 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 22:11:45 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/11 18:36:19 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "start.h"
 #include <libft.h>
-#include "strs_utils.h"
 
 void	print_names(char **names, t_env *env)
 {
@@ -28,9 +27,8 @@ void	print_names(char **names, t_env *env)
 		{
 			ft_putstr_fd("=", 1);
 			putstr_export_fd(value, 1);
+			ft_putstr_fd("\n", 1);
 		}
-		ft_putstr_fd("\n", 1);
-		i++;
 	}
 }
 
@@ -41,7 +39,7 @@ void	print_sorted(t_env *env)
 	names = env_to_array(env);
 	ft_sort_array(names);
 	print_names(names, env);
-	free_str_arr(&names);
+	free_array(&names);
 }
 
 void	change_var_value(char *name, char **buf, t_env **env)
@@ -57,12 +55,13 @@ void	change_var_value(char *name, char **buf, t_env **env)
 			tmp_c = tmp->value;
 			(tmp)->value = *buf;
 			if (tmp_c)
-				nullify_str(&tmp_c);
+				free(tmp_c);
 			return ;
 		}
 		tmp = (tmp)->next;
 	}
-	nullify_str(buf);
+	free(*buf);
+	*buf = NULL;
 }
 
 int	is_env_declared(char *name, t_env *env)
@@ -89,52 +88,48 @@ int	exp_new_var(t_env **env, char *str)
 	if ((equal = ft_strchr(str, '=')))
 		*equal++ = '\0';
 	if (!is_valid_env_name(str))
-		return (1);
+		return (-1);
 	if (!is_env_declared(str, *env))
 	{
-		if (!(new = create_env(str, equal, NULL)))
-			return (2);
-		put_env_back(new, *env);
+		new = (t_env *)malloc(sizeof(t_env));
+		new->name = ft_strdup(str);
+		if (equal)
+			new->value = ft_strdup(equal);
+		else
+			new->value = NULL;
+		new->next = NULL;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
 	}
-	else if (equal)
-	{
-		if (!(equal = ft_strdup(equal)))
-			return (2);
-		change_var_value(str, &equal, env);
-	}
+	else
+		if (equal)
+		{
+			equal = ft_strdup(equal);
+			change_var_value(str, &equal, env);
+		}
 	return (0);
-}
-
-void	print_export_error(char *argv, char *describe)
-{
-	ft_putstr_fd("minishell: export: `", 2);
-	ft_putstr_fd(argv, 2);
-	ft_putstr_fd("': ", 2);
-	ft_putendl_fd(describe, 2);
 }
 
 int	ft_export(char **argv, t_env **env)
 {
 	int	count;
 	int	out;
-	int	err;
 
-	count = 1;
+	count = 0;
 	out = 0;
 	if (!argv[1])
-	{
 		print_sorted(*env);
-		return (out);
-	}
 	while (argv[count])
 	{
-		err = exp_new_var(env, argv[count]);
-		if (err == 1)
-			print_export_error(argv[count], "not a valid identifier");
-		else if (err == 2)
-			print_export_error(argv[count], "Cannot allocate memory");
-		if (err > 0)
+		if (!exp_new_var(env, argv[count]))
+		{
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(argv[count], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			out = 1;
+			continue;
+		}
 		count++;
 	}
 	return (out);

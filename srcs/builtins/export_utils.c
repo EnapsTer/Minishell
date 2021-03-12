@@ -6,13 +6,27 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 15:37:51 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/09 19:33:58 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "start.h"
 #include <libft.h>
 #include <stdlib.h>
+
+void	free_array(char ***array)
+{
+	if (*array)
+	{
+		while(**array)
+		{
+			free (**array);
+			**array++ = NULL;
+		}
+		free(*array);
+		*array = NULL;
+	}
+}
 
 void	ft_swap(char **a, char **b)
 {

@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 20:03:26 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/10 21:23:05 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/12 15:19:16 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "start.h"
 
 int	is_valid_env_name(char *str)
-	{
+{
 		if (ft_isdigit(str[0]))
 			return (0);
 		while (*str)
@@ -29,7 +29,7 @@ int	is_valid_env_name(char *str)
 				str++;
 			}
 		return (1);
-	}
+}
 
 char	*get_envp_value(char *name, char **envp)
 {

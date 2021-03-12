@@ -6,7 +6,7 @@
 /*   By: aherlind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:31:56 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/04 18:32:44 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 # define STDIN	 0
 # define STDOUT	 1
+# define STDERROR 2
 
 # define TRUE	 1
 # define FALSE	 0

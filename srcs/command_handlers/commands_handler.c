@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:20:36 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/04 18:32:44 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ************************************************************************** */
@@ -82,33 +82,22 @@ int handle_commands(char *str, t_env **env)
 {
 	char		**semicoloned_strs;
 	t_command	**commands;
+	int 		ret;
 	int			i;
 	int 		j;
 
 	semicoloned_strs = advanced_split(str, is_semicolon, 0);
 	i = -1;
-	while (semicoloned_strs[++i])
+	while (semicoloned_strs[++i] && ret != ERROR)
 	{
-		// echo hello > file1 | ls ; echo | ls ../
 		commands = get_commands_by_pipes(semicoloned_strs[i], *env);
 		handle_pipes(commands);
 		j = -1;
 		while (commands[++j])
-		{
 			handle_redirects(commands[j]);
-//			printf("str = |%s|\n", commands[j]->str);
-//			printf("command name = %s\n", commands[j]->name);
-//			for (int index = 0; commands[j]->args && commands[j]->args[index]; index++)
-//				printf("args = %s\n", commands[j]->args[index]);
-//			for (int index = 0; commands[j]->files && commands[j]->files[index]; index++)
-//				printf("files = %s\n", commands[j]->files[index]);
-//			printf("in = %d ---- out = %d\n", commands[j]->in, commands[j]->out);
-//			printf("\n");
-		}
-		if (execute_commands(commands, env) == ERROR)
-			return (ERROR);
+		ret = execute_commands(commands, env);
 		free_commands(&commands);
 	}
 	free_str_arr(&semicoloned_strs);
-	return (TRUE);
+	return (ret);
 }
