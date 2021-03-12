@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 17:30:35 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,79 +134,74 @@ int		close_pipe_fd(t_command **commands, int i)
 	return (TRUE);
 }
 
-BOOL		is_builtin(char *name)
-{
-	if (!ft_strcmp(name, "echo"))
-		return (TRUE);
-	if (!ft_strcmp(name, "cd"))
-		return (TRUE);
-	if (!ft_strcmp(name, "env"))
-		return (TRUE);
-	if (!ft_strcmp(name, "exit"))
-		return (TRUE);
-	if (!ft_strcmp(name, "export"))
-		return (TRUE);
-	if (!ft_strcmp(name, "pwd"))
-		return (TRUE);
-	if (!ft_strcmp(name, "unset"))
-		return (TRUE);
-	return (FALSE);
-}
+//BOOL		is_builtin(char *name)
+//{
+//	if (!ft_strcmp(name, "echo"))
+//		return (TRUE);
+//	if (!ft_strcmp(name, "cd"))
+//		return (TRUE);
+//	if (!ft_strcmp(name, "env"))
+//		return (TRUE);
+//	if (!ft_strcmp(name, "exit"))
+//		return (TRUE);
+//	if (!ft_strcmp(name, "export"))
+//		return (TRUE);
+//	if (!ft_strcmp(name, "pwd"))
+//		return (TRUE);
+//	if (!ft_strcmp(name, "unset"))
+//		return (TRUE);
+//	return (FALSE);
+//}
 
-BOOL		run_builtin(char **argv, t_env **envp)
+BOOL run_builtin(char **argv, t_env **envp, int *exit_flag)
 {
-	int *exit_flag = NULL;
+	int	ret;
+
+	ret = ERROR;
 	if (!ft_strcmp(argv[0], "echo"))
-		return (echo(argv));
+		ret =  echo(argv);
 	if (!ft_strcmp(argv[0], "cd"))
-		return (cd(argv, *envp));
+		ret = cd(argv, *envp);
 	if (!ft_strcmp(argv[0], "env"))
-		return (env(*envp));
+		ret = env(*envp);
 	if (!ft_strcmp(argv[0], "exit"))
-		return (ft_exit(argv, exit_flag));
+		ret = ft_exit(argv, exit_flag);
 	if (!ft_strcmp(argv[0], "export"))
-		return (ft_export(argv, envp));
+		ret = ft_export(argv, envp);
 	if (!ft_strcmp(argv[0], "pwd"))
-		return (pwd());
+		ret = pwd();
 	if (!ft_strcmp(argv[0], "unset"))
-		return (unset(argv, *envp));
-	return (FALSE);
+		ret = unset(argv, *envp);
+	return (ret);
 }
 
-int execute_command(t_command **commands, int i, t_env **env)
+int execute_command(t_command **commands, int i, t_env **env, int *exit_flag)
 {
 	pid_t		pid;
 	char		*path;
 	struct stat	file_stat;
+	int 		ret;
 
 	set_redirect(commands[i]);
-//	if (commands[i]->args)
-//	{
-//		if (is_builtin(commands[i]->args[0]))
-//		{
-//			run_builtin(commands[i]->args, env);
-//		}
-//		else
-//		{
-			if ((pid = fork()) <= ERROR)
-				return (ERROR);
-			if (pid == 0)
+	if ((ret = run_builtin(commands[i]->args, env, exit_flag)) == ERROR)
+	{
+		if ((pid = fork()) <= ERROR)
+			return (ERROR);
+		if (pid == 0)
+		{
+			close_pipe_fd(commands, i);
+			if (!(path = get_command_path(commands[i]->args[0], env)))
 			{
-				close_pipe_fd(commands, i);
-				if (!(path = get_command_path(commands[i]->args[0], env)))
-				{
-					print_error_with_exit(path, "command not found", 127);
-				}
-				if (stat(path, &file_stat) == ERROR)
-					print_error_with_exit(path, strerror(errno), 127);
-				if (execve(path, commands[i]->args, build_envp(env)) == ERROR)
-					print_error_with_exit(path, strerror(errno), 126);
+				print_error_with_exit(path, "command not found", 127);
 			}
-//		}
-//	}
-	return (TRUE);
+			if (stat(path, &file_stat) == ERROR)
+				print_error_with_exit(path, strerror(errno), 127);
+			if (execve(path, commands[i]->args, build_envp(env)) == ERROR)
+				print_error_with_exit(path, strerror(errno), 126);
+		}
+	}
+return (TRUE);
 }
-
 
 int		execute_commands(t_command **commands, t_env **env)
 {
@@ -214,14 +209,18 @@ int		execute_commands(t_command **commands, t_env **env)
 	int 	status;
 	t_fd	stdfd;
 	int 	ret;
+	int 	exit_flag;
 
+	exit_flag = 0;
 	if (init_stdfd(&stdfd) == ERROR)
 		return (ERROR);
 	i = 0;
 	while (commands[i])
 	{
-		if (execute_command(commands, i, env) == ERROR)
+		if (commands[i]->args && execute_command(commands, i, env, &exit_flag) == ERROR)
 			return (ERROR);
+//		if (exit_flag == ERROR)
+//			re
 		if (set_default_redirect(commands[i], &stdfd) == ERROR)
 			return (ERROR);
 		i++;

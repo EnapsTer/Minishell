@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:31:30 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/10 21:28:48 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@ int	cd(char **argv, t_env *env)
 {
 	char	*buf;
 	char	*path;
+	int	out;
 
+	out = 0;
 	if (!(buf = getcwd(NULL, 0)))
 	{
 		ft_putstr_fd("minishell: cd: getcwd: ", 2);
 		ft_putendl_fd(strerror(errno), 2);
-		return (1);
+		out = 1;
 	}
-	if (get_env_value("OLDPWD", &env))
+	else if (is_env_declared("OLDPWD", env))
 		change_var_value("OLDPWD", &buf, &env);
 	if (!argv[1])
 	{
@@ -43,7 +45,9 @@ int	cd(char **argv, t_env *env)
 		path = argv[1];
 	if (chdir(path) < 0)
 	{
-		ft_putstr_fd("minishell: cd: chdir: ", 2);
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(path, 2);;
+		ft_putstr_fd(": ", 2);
 		ft_putendl_fd(strerror(errno), 2);
 		return (1);
 	}
@@ -53,7 +57,7 @@ int	cd(char **argv, t_env *env)
 		ft_putendl_fd(strerror(errno), 2);
 		return (1);
 	}
-	if (get_env_value("PWD", &env))
+	if (is_env_declared("PWD", env))
 		change_var_value("PWD", &buf, &env);
-	return (0);
+	return (out);
 }
