@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <libft.h>
+#include "start.h"
 
 static void	ft_skip_spaces(char **str)
 {
@@ -79,7 +80,7 @@ static int			check_number(char *str)
 	return (1);
 }
 
-int	ft_exit(char **argv, int *flag)
+int ft_exit(char **argv)
 {
 	unsigned char	out;
 
@@ -100,6 +101,6 @@ int	ft_exit(char **argv, int *flag)
 	}
 	else
 		out = (unsigned char)get_number;
-	*flag = -1;
+	nullify_g_str();
 	return((int)out);
 }

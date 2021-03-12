@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/12 17:30:35 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 18:24:40 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ int		close_pipe_fd(t_command **commands, int i)
 //	return (FALSE);
 //}
 
-BOOL run_builtin(char **argv, t_env **envp, int *exit_flag)
+BOOL run_builtin(char **argv, t_env **envp)
 {
 	int	ret;
 
@@ -165,7 +165,7 @@ BOOL run_builtin(char **argv, t_env **envp, int *exit_flag)
 	if (!ft_strcmp(argv[0], "env"))
 		ret = env(*envp);
 	if (!ft_strcmp(argv[0], "exit"))
-		ret = ft_exit(argv, exit_flag);
+		ret = ft_exit(argv);
 	if (!ft_strcmp(argv[0], "export"))
 		ret = ft_export(argv, envp);
 	if (!ft_strcmp(argv[0], "pwd"))
@@ -175,7 +175,7 @@ BOOL run_builtin(char **argv, t_env **envp, int *exit_flag)
 	return (ret);
 }
 
-int execute_command(t_command **commands, int i, t_env **env, int *exit_flag)
+int execute_command(t_command **commands, int i, t_env **env)
 {
 	pid_t		pid;
 	char		*path;
@@ -183,10 +183,13 @@ int execute_command(t_command **commands, int i, t_env **env, int *exit_flag)
 	int 		ret;
 
 	set_redirect(commands[i]);
-	if ((ret = run_builtin(commands[i]->args, env, exit_flag)) == ERROR)
+	if ((ret = run_builtin(commands[i]->args, env)) == ERROR)
 	{
 		if ((pid = fork()) <= ERROR)
-			return (ERROR);
+		{
+			print_error(0, strerror(errno));
+			return (1);
+		}
 		if (pid == 0)
 		{
 			close_pipe_fd(commands, i);
@@ -200,7 +203,7 @@ int execute_command(t_command **commands, int i, t_env **env, int *exit_flag)
 				print_error_with_exit(path, strerror(errno), 126);
 		}
 	}
-return (TRUE);
+	return (ret);
 }
 
 int		execute_commands(t_command **commands, t_env **env)
@@ -209,24 +212,21 @@ int		execute_commands(t_command **commands, t_env **env)
 	int 	status;
 	t_fd	stdfd;
 	int 	ret;
-	int 	exit_flag;
 
-	exit_flag = 0;
 	if (init_stdfd(&stdfd) == ERROR)
 		return (ERROR);
 	i = 0;
 	while (commands[i])
 	{
-		if (commands[i]->args && execute_command(commands, i, env, &exit_flag) == ERROR)
-			return (ERROR);
-//		if (exit_flag == ERROR)
-//			re
+		if (commands[i]->args)
+			ret = execute_command(commands, i, env);
 		if (set_default_redirect(commands[i], &stdfd) == ERROR)
-			return (ERROR);
+			return (ERROR); //print error
 		i++;
 	}
 	while (wait(&status) > 0)
 		;
-	ret = WEXITSTATUS(status);
+	if (ret == -1)
+		ret = WEXITSTATUS(status);
 	return (ret);
 }

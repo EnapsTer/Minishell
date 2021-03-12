@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:10:49 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/11 18:35:32 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/12 16:05:59 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct		s_env
 
 extern char	*g_input_str;
 extern int	g_int_fd;
-
 
 /////////////read_utils//////////////
 
@@ -91,7 +90,7 @@ int	env(t_env *env);
 int	echo(char **argv);
 int	pwd(void);
 int	cd(char **argv, t_env *env);
-int	ft_exit(char **argv, int *flag);
+int ft_exit(char **argv);
 int	ft_export(char **argv, t_env **env);
 int	unset(char **argv, t_env *env);
 

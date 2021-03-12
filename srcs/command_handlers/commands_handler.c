@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:20:36 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 18:13:15 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ************************************************************************** */
@@ -97,6 +97,8 @@ int handle_commands(char *str, t_env **env)
 			handle_redirects(commands[j]);
 		ret = execute_commands(commands, env);
 		free_commands(&commands);
+		if (!g_input_str)
+			break;
 	}
 	free_str_arr(&semicoloned_strs);
 	return (ret);

@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/12 13:19:22 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 18:26:09 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	signal_handle_routine(int signum)
 	write(STDOUT, "\n", 1);
 }
 
-void	routine (t_env **env)
+int routine (t_env **env)
 {
 	int		ret;
 	char 	*exit_code;
@@ -65,8 +65,11 @@ void	routine (t_env **env)
 		ret = handle_commands(g_input_str, env);
 		exit_code = ft_itoa(ret);
 		change_var_value("?", &exit_code, env);
+		if (!g_input_str)
+			break;
 		nullify_g_str();
 	}
+	return (ret);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -77,7 +80,8 @@ int	main(int argc, char **argv, char **envp)
 	// тесты на редиректы и пайпы
 	// обработать open когда не открывается файл
 	// спросить серегу про еще какие-то пункты
-	t_env *env;
+	t_env	*env;
+	int 	ret;
 
 	if (!(env = get_env(envp)))
 		{
@@ -98,8 +102,8 @@ int	main(int argc, char **argv, char **envp)
 	env = begin;
 	*/
 	///////////////////print env////////////////////////////
-	routine(&env);
+	ret = routine(&env);
 	free_env(&env);
-	return (0);
+	return (ret);
 }
 
