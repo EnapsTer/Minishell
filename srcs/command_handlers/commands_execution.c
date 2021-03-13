@@ -216,6 +216,7 @@ int		execute_commands(t_command **commands, t_env **env)
 	if (init_stdfd(&stdfd) == ERROR)
 		return (ERROR);
 	i = 0;
+	ret = -1;
 	while (commands[i])
 	{
 		if (commands[i]->args)

@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/12 18:26:09 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 19:41:52 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,12 @@ int routine (t_env **env)
 		if (!g_input_str)
 			g_input_str = ft_strdup("");
 		ret = handle_commands(g_input_str, env);
-		exit_code = ft_itoa(ret);
-		change_var_value("?", &exit_code, env);
+		//обработать эти строки и перенести их
+		if (ret != -1)
+		{
+			exit_code = ft_itoa(ret);
+			change_var_value("?", &exit_code, env);
+		}
 		if (!g_input_str)
 			break;
 		nullify_g_str();
@@ -80,6 +84,7 @@ int	main(int argc, char **argv, char **envp)
 	// тесты на редиректы и пайпы
 	// обработать open когда не открывается файл
 	// спросить серегу про еще какие-то пункты
+	// малок эроры
 	t_env	*env;
 	int 	ret;
 

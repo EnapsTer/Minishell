@@ -6,18 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:20:36 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/12 18:13:15 by aherlind         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   commands_execution.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/03 11:58:40 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/10 10:52:56 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 19:17:30 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +77,13 @@ int handle_commands(char *str, t_env **env)
 
 	semicoloned_strs = advanced_split(str, is_semicolon, 0);
 	i = -1;
-	while (semicoloned_strs[++i] && ret != ERROR)
+	ret = -1;
+	while (semicoloned_strs[++i])
 	{
 		commands = get_commands_by_pipes(semicoloned_strs[i], *env);
 		handle_pipes(commands);
 		j = -1;
-		while (commands[++j])
+		while (commands[++j] && commands[j]->args)
 			handle_redirects(commands[j]);
 		ret = execute_commands(commands, env);
 		free_commands(&commands);

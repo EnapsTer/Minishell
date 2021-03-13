@@ -100,7 +100,7 @@ int ft_exit(char **argv)
 		return (1);
 	}
 	else
-		out = (unsigned char)get_number;
+		out = (unsigned char)get_number(argv[1]);
 	nullify_g_str();
 	return((int)out);
 }
