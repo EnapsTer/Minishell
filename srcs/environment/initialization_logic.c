@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 17:45:55 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 22:23:50 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "start.h"
 
-int	special_env(t_env **env)
+int		special_env(t_env **env)
 {
 	char *buf;
 
@@ -94,15 +94,15 @@ t_env	*get_env(char **envp)
 	if (!(env = create_env("?", "0", NULL)))
 		return (NULL);
 	while (*envp)
-		if(!(add_env(env, *envp++)))
+		if (!(add_env(env, *envp++)))
 		{
 			free_env(&env);
 			return (NULL);
 		}
 	if ((special_env(&env)))
-		{
-			free_env(&env);
-			return (NULL);
-		}
+	{
+		free_env(&env);
+		return (NULL);
+	}
 	return (env);
 }

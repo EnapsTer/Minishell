@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/12 19:41:52 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/13 11:21:30 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-///////////=============================================================////////////////
 #include <libft.h>
-#include <stdio.h>
 #include <signal.h>
 #include "start.h"
 #include "strs_utils.h"
@@ -34,9 +32,7 @@
 // echo "\$" ------ echo '\$'
 //
 
-int		g_int_fd;
 char	*g_input_str;
-
 
 void	signal_handle_routine(int signum)
 {
@@ -76,7 +72,7 @@ int routine (t_env **env)
 	return (ret);
 }
 
-int	main(int argc, char **argv, char **envp)
+int		main(int argc, char **argv, char **envp)
 {
 	// обработать $? и понять почему когда прога отрабатывает возвращаются разные код статусы
 	// почему то ошибка 127 когда просто нажимаю на контрол д обсудить с серегой
@@ -84,29 +80,14 @@ int	main(int argc, char **argv, char **envp)
 	// тесты на редиректы и пайпы
 	// обработать open когда не открывается файл
 	// спросить серегу про еще какие-то пункты
-	// малок эроры
 	t_env	*env;
-	int 	ret;
+	int		ret;
 
 	if (!(env = get_env(envp)))
-		{
-			ft_putendl_fd("minishell: Cannot allocate memory", 2);
-			return (1);
-		}
-
-	///////////////////print env////////////////////////////
-	/*
-	t_env *begin;
-	begin = env;
-	while (env->next)
 	{
-		printf("%s|||%s\n", env->name, env->value);
-		env = env->next;
+		ft_putendl_fd("minishell: Cannot allocate memory", 2);
+		return (1);
 	}
-	printf("%s|||%s\n", env->name, env->value);
-	env = begin;
-	*/
-	///////////////////print env////////////////////////////
 	ret = routine(&env);
 	free_env(&env);
 	return (ret);
