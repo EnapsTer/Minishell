@@ -5,7 +5,7 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra -Wall") #add -Werror
 include_directories(libft srcs includes)
 
-set(BUILTINS_EXE srcs/builtins/export_utils.c srcs/builtins/echo.c srcs/builtins/pwd.c srcs/builtins/cd.c srcs/builtins/env.c srcs/builtins/exit.c srcs/builtins/export.c srcs/builtins/unset.c)
+set(BUILTINS_EXE srcs/builtins/export_print_sorted.c srcs/builtins/export_utils.c srcs/builtins/echo.c srcs/builtins/pwd.c srcs/builtins/cd.c srcs/builtins/env.c srcs/builtins/exit.c srcs/builtins/export.c srcs/builtins/unset.c)
 set(EXECUTION_EXE srcs/command_handlers/commands_handler.c srcs/command_handlers/command_io.c srcs/command_handlers/commands_execution.c)
 set(COMMANDS_READ_EXE srcs/command_read/remove_quoted_str.c srcs/command_read/core_logic.c srcs/command_read/errors_read.c srcs/command_read/handle_new_line.c srcs/command_read/read_utils.c srcs/command_read/signals.c srcs/command_read/syntax_utils.c srcs/command_read/syntax_logic.c)
 set(ENVIRONMENT_EXE srcs/environment/environment_utils.c srcs/environment/initialization_logic.c)

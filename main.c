@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/13 11:21:30 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/13 16:41:51 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	signal_handle_routine(int signum)
 int routine (t_env **env)
 {
 	int		ret;
-	char 	*exit_code;
 
 	while (1)
 	{
@@ -59,12 +58,6 @@ int routine (t_env **env)
 		if (!g_input_str)
 			g_input_str = ft_strdup("");
 		ret = handle_commands(g_input_str, env);
-		//обработать эти строки и перенести их
-		if (ret != -1)
-		{
-			exit_code = ft_itoa(ret);
-			change_var_value("?", &exit_code, env);
-		}
 		if (!g_input_str)
 			break;
 		nullify_g_str();
@@ -75,11 +68,11 @@ int routine (t_env **env)
 int		main(int argc, char **argv, char **envp)
 {
 	// обработать $? и понять почему когда прога отрабатывает возвращаются разные код статусы
-	// почему то ошибка 127 когда просто нажимаю на контрол д обсудить с серегой
-	// сделать норм билтины с пайпами
 	// тесты на редиректы и пайпы
 	// обработать open когда не открывается файл
 	// спросить серегу про еще какие-то пункты
+	// пример ls | exit 55 $? всегда у бинаркника
+	// echo '\'"'
 	t_env	*env;
 	int		ret;
 

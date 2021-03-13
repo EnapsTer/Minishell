@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/12 18:24:40 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/13 17:48:43 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,30 +134,42 @@ int		close_pipe_fd(t_command **commands, int i)
 	return (TRUE);
 }
 
-//BOOL		is_builtin(char *name)
-//{
-//	if (!ft_strcmp(name, "echo"))
-//		return (TRUE);
-//	if (!ft_strcmp(name, "cd"))
-//		return (TRUE);
-//	if (!ft_strcmp(name, "env"))
-//		return (TRUE);
-//	if (!ft_strcmp(name, "exit"))
-//		return (TRUE);
-//	if (!ft_strcmp(name, "export"))
-//		return (TRUE);
-//	if (!ft_strcmp(name, "pwd"))
-//		return (TRUE);
-//	if (!ft_strcmp(name, "unset"))
-//		return (TRUE);
-//	return (FALSE);
-//}
+BOOL 	is_builtin(char *str)
+{
+	if (!ft_strcmp(str, "echo"))
+		return (TRUE);
+	if (!ft_strcmp(str, "cd"))
+		return (TRUE);
+	if (!ft_strcmp(str, "env"))
+		return (TRUE);
+	if (!ft_strcmp(str, "exit"))
+		return (TRUE);
+	if (!ft_strcmp(str, "export"))
+		return (TRUE);
+	if (!ft_strcmp(str, "pwd"))
+		return (TRUE);
+	if (!ft_strcmp(str, "unset"))
+		return (TRUE);
+	return (FALSE);
+}
 
-BOOL run_builtin(char **argv, t_env **envp)
+BOOL handle_builtin(char **argv, t_env **envp, int commands_len)
 {
 	int	ret;
+	pid_t	pid;
 
 	ret = ERROR;
+	pid = -1;
+	if (commands_len > 1 && is_builtin(argv[0]))
+	{
+		if ((pid = fork()) <= ERROR)
+		{
+			print_error(0, strerror(errno));
+			return (1);
+		}
+		if (pid != 0)
+			return (-2);
+	}
 	if (!ft_strcmp(argv[0], "echo"))
 		ret =  echo(argv);
 	if (!ft_strcmp(argv[0], "cd"))
@@ -172,10 +184,12 @@ BOOL run_builtin(char **argv, t_env **envp)
 		ret = pwd();
 	if (!ft_strcmp(argv[0], "unset"))
 		ret = unset(argv, *envp);
+	if (ret != ERROR && pid == 0)
+		exit(ret);
 	return (ret);
 }
 
-int execute_command(t_command **commands, int i, t_env **env)
+int execute_command(t_command **commands, int i, t_env **env, int commands_len)
 {
 	pid_t		pid;
 	char		*path;
@@ -183,7 +197,7 @@ int execute_command(t_command **commands, int i, t_env **env)
 	int 		ret;
 
 	set_redirect(commands[i]);
-	if ((ret = run_builtin(commands[i]->args, env)) == ERROR)
+	if ((ret = handle_builtin(commands[i]->args, env, commands_len)) == ERROR)
 	{
 		if ((pid = fork()) <= ERROR)
 		{
@@ -194,16 +208,24 @@ int execute_command(t_command **commands, int i, t_env **env)
 		{
 			close_pipe_fd(commands, i);
 			if (!(path = get_command_path(commands[i]->args[0], env)))
-			{
-				print_error_with_exit(path, "command not found", 127);
-			}
+				print_error_with_exit(commands[i]->args[0], "command not found", 127);
 			if (stat(path, &file_stat) == ERROR)
 				print_error_with_exit(path, strerror(errno), 127);
-			if (execve(path, commands[i]->args, build_envp(env)) == ERROR)
+			if (execve(path, commands[i]->args, build_envp(env)) == ERROR) // free envp
 				print_error_with_exit(path, strerror(errno), 126);
 		}
 	}
 	return (ret);
+}
+
+int 	get_commands_len(t_command **commands)
+{
+	int	len;
+
+	len = 0;
+	while (commands[len])
+		len++;
+	return (len);
 }
 
 int		execute_commands(t_command **commands, t_env **env)
@@ -212,22 +234,26 @@ int		execute_commands(t_command **commands, t_env **env)
 	int 	status;
 	t_fd	stdfd;
 	int 	ret;
+	int 	commands_len;
 
 	if (init_stdfd(&stdfd) == ERROR)
 		return (ERROR);
+	commands_len = get_commands_len(commands);
 	i = 0;
 	ret = -1;
-	while (commands[i])
+	while (i < commands_len)
 	{
 		if (commands[i]->args)
-			ret = execute_command(commands, i, env);
+			ret = execute_command(commands, i, env, commands_len);
+		else
+			return (ERROR);
 		if (set_default_redirect(commands[i], &stdfd) == ERROR)
 			return (ERROR); //print error
 		i++;
 	}
 	while (wait(&status) > 0)
 		;
-	if (ret == -1)
+	if (ret == -1 || ret == -2)
 		ret = WEXITSTATUS(status);
 	return (ret);
 }

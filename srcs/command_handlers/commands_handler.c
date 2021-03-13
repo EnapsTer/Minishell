@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:20:36 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/12 19:17:30 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/13 17:48:43 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 #include "commands_parser.h"
 #include "minishell.h"
 #include "stdlib.h"
+#include "libft.h"
+#include <string.h>
+#include <errno.h>
+#include "print_errors.h"
 
 #include <stdio.h>
 #include "start.h"
@@ -35,14 +39,7 @@ t_command *get_parsed_command(char *str, t_env *env)
 		free_command(&command);
 		return (NULL);
 	}
-//	printf("command name = %s\n", command->name);
-//	for (int i = 0; command->args && command->args[i]; i++)
-//		printf("args = %s\n", command->args[i]);
-//	for (int i = 0; command->files && command->files[i]; i++)
-//		printf("args = %s\n", command->files[i]);
-//	printf("\n");
 	return (command);
-
 }
 
 t_command **get_commands_by_pipes(char *str, t_env *env)
@@ -66,6 +63,46 @@ t_command **get_commands_by_pipes(char *str, t_env *env)
 	return (commands);
 }
 
+t_command **get_commands(char *str, t_env **env)
+{
+	t_command	**commands;
+	int 		i;
+
+	if ((commands = get_commands_by_pipes(str, *env)) == NULL)
+	{
+		print_error(0, strerror(errno));
+		return (NULL);
+	}
+	if (handle_pipes(commands) == ERROR)
+	{
+		free_commands(&commands);
+		print_error(0, strerror(errno));
+		return (NULL);
+	}
+	i = -1;
+	while (commands[++i] && commands[i]->args)
+	{
+		if (handle_redirects(commands[i]) == ERROR)
+		{
+			free_commands(&commands);
+			return (NULL);
+		}
+	}
+	return (commands);
+}
+
+int 	change_exit_code(int ret, t_env **env)
+{
+	char 	*exit_code;
+
+	if (ret != -1)
+	{
+		if (!(exit_code = ft_itoa(ret)))
+			return (ERROR);
+		change_var_value("?", &exit_code, env);
+	}
+	return (TRUE);
+}
 
 int handle_commands(char *str, t_env **env)
 {
@@ -73,23 +110,25 @@ int handle_commands(char *str, t_env **env)
 	t_command	**commands;
 	int 		ret;
 	int			i;
-	int 		j;
 
 	semicoloned_strs = advanced_split(str, is_semicolon, 0);
 	i = -1;
 	ret = -1;
 	while (semicoloned_strs[++i])
 	{
-		commands = get_commands_by_pipes(semicoloned_strs[i], *env);
-		handle_pipes(commands);
-		j = -1;
-		while (commands[++j] && commands[j]->args)
-			handle_redirects(commands[j]);
-		ret = execute_commands(commands, env);
-		free_commands(&commands);
+		if ((commands = get_commands(semicoloned_strs[i], env)) == NULL)
+			ret = 1;
+		else
+		{
+			ret = execute_commands(commands, env);
+			free_commands(&commands);
+		}
 		if (!g_input_str)
 			break;
 	}
 	free_str_arr(&semicoloned_strs);
+	if (change_exit_code(ret, env) == ERROR)
+		return (ERROR);
+	change_exit_code(ret, env);
 	return (ret);
 }

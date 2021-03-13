@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 12:31:27 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/13 12:25:59 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/13 15:03:24 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include "libft.h"
 
 int		close_fd(int fd)
 {
@@ -51,6 +55,9 @@ int 	get_right_redirect_fd(char *file_name, int current_fd)
 		return (ERROR);
 	fd = open(file_name, O_CREAT | O_TRUNC | O_WRONLY,
 			  S_IREAD | S_IWRITE | S_IRGRP | S_IROTH);
+//	ft_putstr_fd(ft_itoa(fd), 1);
+//	ft_putstr_fd("", 1);
+//	ft_putstr_fd(strerror(errno), 1);
 	return (fd);
 }
 

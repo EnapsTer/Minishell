@@ -6,13 +6,16 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 17:16:47 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/18 16:05:38 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/13 15:15:01 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "commands_utils.h"
 #include "libft.h"
+#include "print_errors.h"
+#include <string.h>
+#include <errno.h>
 
 int 		handle_pipes(t_command **commands)
 {
@@ -38,9 +41,8 @@ int			handle_redirects(t_command *command)
 	int 	i;
 
 	file_index = 0;
-	i = 0;
-	// cat hello < file1
-	while (command->str[i])
+	i = -1;
+	while (command->str[++i])
 	{
 		if (!ft_strncmp(">>", &(command->str[i]), 2))
 		{
@@ -54,8 +56,11 @@ int			handle_redirects(t_command *command)
 		else if (!ft_strncmp("<", &(command->str[i]), 1))
 			command->in = get_left_redirect_fd(command->files[file_index++],
 												 command->in);
-	//обработка errno
-		i++;
+		if (command->in == ERROR || command->out == ERROR)
+		{
+			print_error(command->files[file_index - 1], strerror(errno));
+			return (ERROR);
+		}
 	}
 	return (TRUE);
 }

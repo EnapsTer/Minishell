@@ -6,9 +6,13 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 22:11:45 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/12 22:01:22 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/13 11:18:11 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "start.h"
+#include <libft.h>
+#include "strs_utils.h"
 
 #include "start.h"
 #include <libft.h>

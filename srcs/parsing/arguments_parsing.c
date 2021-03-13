@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "start.h"
+#include "libft.h"
 #include "delimiter_comparators.h"
 #include "strs_utils.h"
 #include "advanced_split.h"
