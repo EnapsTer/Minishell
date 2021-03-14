@@ -83,7 +83,7 @@ HDR			= $(INC)minishell.h\
 
 $(NAME): $(OBJ) $(HDR)
 	make -C $(L_PATH)
-	gcc $(SANITIZE) $(CFLAGS) $(L_PATH)$(L_NAME) $(OBJ) -o $(NAME)
+	gcc $(CFLAGS) $(L_PATH)$(L_NAME) $(OBJ) -o $(NAME)
 
 all: $(NAME)
 

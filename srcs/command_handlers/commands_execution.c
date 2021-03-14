@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/13 17:48:43 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/14 20:00:37 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,8 @@ BOOL 	is_builtin(char *str)
 	return (FALSE);
 }
 
+int g_pid;
+
 BOOL handle_builtin(char **argv, t_env **envp, int commands_len)
 {
 	int	ret;
@@ -168,7 +170,10 @@ BOOL handle_builtin(char **argv, t_env **envp, int commands_len)
 			return (1);
 		}
 		if (pid != 0)
+		{
+			g_pid = pid;
 			return (-2);
+		}
 	}
 	if (!ft_strcmp(argv[0], "echo"))
 		ret =  echo(argv);
@@ -206,6 +211,10 @@ int execute_command(t_command **commands, int i, t_env **env, int commands_len)
 		}
 		if (pid == 0)
 		{
+			if ((signal(SIGINT, SIG_DFL)) == SIG_ERR)
+				print_error(0, "Error: Cannot catch SIGINT");
+			if ((signal(SIGQUIT, SIG_DFL)) == SIG_ERR)
+				print_error(0, "Error: Cannot catch SIGQUIT");
 			close_pipe_fd(commands, i);
 			if (!(path = get_command_path(commands[i]->args[0], env)))
 				print_error_with_exit(commands[i]->args[0], "command not found", 127);
@@ -214,6 +223,8 @@ int execute_command(t_command **commands, int i, t_env **env, int commands_len)
 			if (execve(path, commands[i]->args, build_envp(env)) == ERROR) // free envp
 				print_error_with_exit(path, strerror(errno), 126);
 		}
+		else
+			g_pid = pid;
 	}
 	return (ret);
 }
@@ -241,6 +252,7 @@ int		execute_commands(t_command **commands, t_env **env)
 	commands_len = get_commands_len(commands);
 	i = 0;
 	ret = -1;
+	g_pid = 0;
 	while (i < commands_len)
 	{
 		if (commands[i]->args)
@@ -251,9 +263,15 @@ int		execute_commands(t_command **commands, t_env **env)
 			return (ERROR); //print error
 		i++;
 	}
+	int last_status;
+//	printf("g_pid - %d\n", g_pid);
+	while (waitpid(g_pid, &last_status, WUNTRACED) > 0)
+		;
+//		printf("last - %d\n", WEXITSTATUS(last_status));
 	while (wait(&status) > 0)
 		;
+//		printf("wait - %d\n", WEXITSTATUS(status));
 	if (ret == -1 || ret == -2)
-		ret = WEXITSTATUS(status);
+		ret = WEXITSTATUS(last_status);
 	return (ret);
 }

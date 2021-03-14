@@ -123,7 +123,7 @@ char	**get_arguments(char *str, t_env *env)
 
 	if (!(t_args = advanced_split(str, is_redirect_and_space, 0)))
 		return (NULL);
-	if (!(args = (char **)malloc(sizeof(char *) * str_arr_len(t_args) + 1)))
+	if (!(args = (char **)malloc(sizeof(char *) * (str_arr_len(t_args) + 1))))
 		return (NULL);
 	i = 0;
 	while (t_args[i])
