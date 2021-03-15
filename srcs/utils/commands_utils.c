@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 15:14:59 by aherlind          #+#    #+#             */
-/*   Updated: 2021/02/11 11:06:35 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/15 15:27:13 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		init_command(t_command *command)
 	return (TRUE);
 }
 
-void		free_command(t_command **command)
+void	free_command(t_command **command)
 {
 	t_command *temp_command;
 
@@ -39,7 +39,7 @@ void		free_command(t_command **command)
 	*command = NULL;
 }
 
-void		free_commands(t_command ***commands)
+void	free_commands(t_command ***commands)
 {
 	int		i;
 
@@ -53,4 +53,14 @@ void		free_commands(t_command ***commands)
 	}
 	free(*commands);
 	*commands = NULL;
+}
+
+int		get_commands_len(t_command **commands)
+{
+	int	len;
+
+	len = 0;
+	while (commands[len])
+		len++;
+	return (len);
 }

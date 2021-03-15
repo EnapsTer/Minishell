@@ -13,6 +13,13 @@
 #ifndef ARGUMENTS_PARSING_H
 #define ARGUMENTS_PARSING_H
 
+typedef struct	s_arg_parse
+{
+	char 		*ret_str;
+	int 		i;
+	int 		len;
+}				t_arg_parse;
+
 char	**get_arguments(char *str, t_env *env);
 
 BOOL 	change_shield_char_value(char *shield_char, char *str);

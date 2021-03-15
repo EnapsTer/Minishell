@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:20:36 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/13 17:48:43 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/15 15:58:27 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,9 @@
 #include <string.h>
 #include <errno.h>
 #include "print_errors.h"
-
-#include <stdio.h>
 #include "start.h"
 
-t_command *get_parsed_command(char *str, t_env *env)
+t_command	*get_parsed_command(char *str, t_env *env)
 {
 	t_command	*command;
 
@@ -42,15 +40,16 @@ t_command *get_parsed_command(char *str, t_env *env)
 	return (command);
 }
 
-t_command **get_commands_by_pipes(char *str, t_env *env)
+t_command	**get_commands_by_pipes(char *str, t_env *env)
 {
 	t_command	**commands;
 	char		**piped_strs;
-	int 		i;
+	int			i;
 
 	if (!(piped_strs = advanced_split(str, is_pipe, 0)))
 		return (NULL);
-	if (!(commands = malloc(sizeof(t_command *) * (str_arr_len(piped_strs) + 1))))
+	if (!(commands = malloc(sizeof(t_command *) *
+			(str_arr_len(piped_strs) + 1))))
 		return (NULL);
 	i = 0;
 	while (piped_strs[i])
@@ -63,10 +62,10 @@ t_command **get_commands_by_pipes(char *str, t_env *env)
 	return (commands);
 }
 
-t_command **get_commands(char *str, t_env **env)
+t_command	**get_commands(char *str, t_env **env)
 {
 	t_command	**commands;
-	int 		i;
+	int			i;
 
 	if ((commands = get_commands_by_pipes(str, *env)) == NULL)
 	{
@@ -91,9 +90,9 @@ t_command **get_commands(char *str, t_env **env)
 	return (commands);
 }
 
-int 	change_exit_code(int ret, t_env **env)
+int			change_exit_code(int ret, t_env **env)
 {
-	char 	*exit_code;
+	char	*exit_code;
 
 	if (ret != -1)
 	{
@@ -104,11 +103,11 @@ int 	change_exit_code(int ret, t_env **env)
 	return (TRUE);
 }
 
-int handle_commands(char *str, t_env **env)
+int			handle_commands(char *str, t_env **env)
 {
 	char		**semicoloned_strs;
 	t_command	**commands;
-	int 		ret;
+	int			ret;
 	int			i;
 
 	semicoloned_strs = advanced_split(str, is_semicolon, 0);
@@ -124,7 +123,7 @@ int handle_commands(char *str, t_env **env)
 			free_commands(&commands);
 		}
 		if (!g_input_str)
-			break;
+			break ;
 	}
 	free_str_arr(&semicoloned_strs);
 	if (change_exit_code(ret, env) == ERROR)

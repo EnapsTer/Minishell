@@ -19,7 +19,7 @@
 ** Change value of shield char and return is changed or not
 */
 
-BOOL change_shield_char(char *shield_char, char *str, int i, int shield)
+BOOL	change_shield_char(char *shield_char, char *str, int i, int shield)
 {
 	if (!(*shield_char) && is_shield(str + i) && !is_mirrored(str, i))
 	{
@@ -42,8 +42,8 @@ BOOL change_shield_char(char *shield_char, char *str, int i, int shield)
 int		count_strs(char *str, int (*is_delimiter)(char *), int shielding)
 {
 	int		count;
-	char 	shield_char;
-	int 	i;
+	char	shield_char;
+	int		i;
 
 	count = 0;
 	shield_char = 0;
@@ -73,8 +73,8 @@ int		count_strs(char *str, int (*is_delimiter)(char *), int shielding)
 int		get_str_len(char *str, int (*is_delimiter)(char *), int shielding)
 {
 	int		len;
-	char 	shield_char;
-	int 	i;
+	char	shield_char;
+	int		i;
 
 	shield_char = 0;
 	len = 0;
@@ -84,7 +84,7 @@ int		get_str_len(char *str, int (*is_delimiter)(char *), int shielding)
 		if (!change_shield_char(&shield_char, str, i, shielding))
 			len++;
 		if (is_delimiter(str + i++) && !shield_char)
-			break;
+			break ;
 	}
 	return (len);
 }
@@ -96,10 +96,10 @@ int		get_str_len(char *str, int (*is_delimiter)(char *), int shielding)
 char	*get_filled_str(char **str, int (*is_delimiter)(char *), int shielding)
 {
 	int		i;
-	int 	j;
+	int		j;
 	int		len;
-	char 	shield_char;
-	char 	*result;
+	char	shield_char;
+	char	*result;
 
 	while (is_delimiter(*str))
 		*str += is_delimiter(*str);
@@ -126,7 +126,7 @@ char	*get_filled_str(char **str, int (*is_delimiter)(char *), int shielding)
 */
 
 int		fill_strs(char **strs, char *str,
-			   int (*is_delimiter)(char *) , int shielding)
+				int (*is_delimiter)(char *), int shielding)
 {
 	int i;
 	int len;

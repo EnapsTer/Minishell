@@ -18,4 +18,7 @@ int		str_arr_len(char **arr);
 int		str_arr_append(char ***arr, char *line);
 
 void	free_str_arr(char ***arr);
+
+int		ft_unregister_strcmp(char *s1, char *s2);
+
 #endif

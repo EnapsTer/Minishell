@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "libft.h"
 
-void 	print_error(char *command, char *message)
+void	print_error(char *command, char *message)
 {
 	if (command)
 	{
@@ -31,7 +31,7 @@ void 	print_error(char *command, char *message)
 	}
 }
 
-void 	print_error_with_exit(char *command, char *message, int exit_code)
+void	print_error_with_exit(char *command, char *message, int exit_code)
 {
 	print_error(command, message);
 	exit(exit_code);

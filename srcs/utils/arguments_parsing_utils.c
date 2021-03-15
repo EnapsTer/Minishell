@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 17:24:12 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/15 19:10:07 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "libft.h"
 #include "delimiter_comparators.h"
 
-int 	skip_words(char *str)
+int		skip_words(char *str)
 {
 	int		cnt;
 
@@ -32,11 +32,11 @@ BOOL	is_valid_env_name_char(char c)
 	return (FALSE);
 }
 
-char 	*get_value_str(char *str)
+char	*get_value_str(char *str)
 {
 	int		len;
-	char 	*value_str;
-	int 	i;
+	char	*value_str;
+	int		i;
 
 	len = 0;
 	if (str[len] == '?')
@@ -56,9 +56,9 @@ char 	*get_value_str(char *str)
 	return (value_str);
 }
 
-BOOL is_masked(char *str, char shield_char)
+BOOL	is_masked(char *str, char shield_char)
 {
-	if (shield_char != '\'' && *str =='\\' && *(str + 1) == '$')
+	if (shield_char != '\'' && *str == '\\' && *(str + 1) == '$')
 		return (TRUE);
 	if (shield_char != '\'' && *str == '\\' && *(str + 1) == '\\')
 		return (TRUE);
@@ -67,7 +67,7 @@ BOOL is_masked(char *str, char shield_char)
 	return (FALSE);
 }
 
-BOOL 	change_shield_char_value(char *shield_char, char *str)
+BOOL	change_shield_char_value(char *shield_char, char *str)
 {
 	if (*shield_char == 0 && is_shield(str))
 	{

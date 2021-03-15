@@ -15,8 +15,9 @@ PARSE_EXE	= $(PARSER_PATH)advanced_split.c\
 #####################################execution#################################
 EXECUTION_PATH	= srcs/command_handlers/
 EXECUTION_EXE	= $(EXECUTION_PATH)commands_handler.c\
-				  $(EXECUTION_PATH)command_io.c\
-				  $(EXECUTION_PATH)commands_execution.c
+				  $(EXECUTION_PATH)commands_io.c\
+				  $(EXECUTION_PATH)commands_execution.c\
+				  $(EXECUTION_PATH)commands_path_handler.c
 #####################################enviroment#######################################
 ENVIRONMENT_PATH	= srcs/environment/
 ENVIRONMENT_EXE	= $(ENVIRONMENT_PATH)environment_utils.c\
@@ -29,7 +30,9 @@ UTILS_EXE	= $(UTILS_PATH)advanced_split_utils.c\
 			  $(UTILS_PATH)strs_utils.c\
 			  $(UTILS_PATH)command_io_utils.c\
 			  $(UTILS_PATH)arguments_parsing_utils.c\
-			  $(UTILS_PATH)print_error_utils.c
+			  $(UTILS_PATH)print_error_utils.c\
+			  $(UTILS_PATH)commands_execution_utils.c\
+			  $(UTILS_PATH)redirect_delimiter_comparators.c
 #####################################reading#######################################
 READ_PATH	= srcs/command_read/
 READ_EXE	= $(READ_PATH)read_utils.c\
