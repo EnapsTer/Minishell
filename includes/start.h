@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:10:49 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/13 11:31:44 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/15 18:33:44 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void						nullify_str(char **buf);
 */
 
 void						print_syntax_error(char *str,
-											   t_env **env, int *continue_flag);
+		t_env **env, int *continue_flag);
 
 /*
 **------------------------------------------------------------------------
@@ -76,10 +76,10 @@ int							ends_with_semicolon(char *str);
 */
 
 char						*remove_quoted_str(char *str,
-											   t_env **env, int *continue_flag);
+		t_env **env, int *continue_flag);
 int							is_semicoloned_syntax_correct(char *str);
 int							is_string_error(char *str, t_env **env,
-											   int *continue_flag);
+		int *continue_flag);
 int							is_piped_syntax_correct(char *str);
 
 /*
@@ -136,17 +136,17 @@ int							unset(char **argv, t_env *env);
 **------------------------------------------------------------------------
 */
 
-void	ft_swap(char **a, char **b);
 int							exp_new_var(t_env **env, char *str);
 void						change_var_value(char *name,
-											 char **buf, t_env **env);
+		char **buf, t_env **env);
 void						free_array(char ***array);
 void						ft_sort_array(char **tab);
 int							is_mirrored_in_double_quotes(char c);
 char						**env_to_array(t_env *env);
 void						print_names(char **names, t_env *env);
-int 						print_sorted(t_env *env);
+int						print_sorted(t_env *env);
 int							ft_export(char **argv, t_env **env);
 void						putstr_export_fd(char *str, int fd);
 int							is_env_declared(char *name, t_env *env);
+void						ft_swap(char **a, char **b);
 #endif

@@ -21,7 +21,8 @@ EXECUTION_EXE	= $(EXECUTION_PATH)commands_handler.c\
 #####################################enviroment#######################################
 ENVIRONMENT_PATH	= srcs/environment/
 ENVIRONMENT_EXE	= $(ENVIRONMENT_PATH)environment_utils.c\
-				  $(ENVIRONMENT_PATH)initialization_logic.c
+				  $(ENVIRONMENT_PATH)initialization_logic.c\
+				  $(ENVIRONMENT_PATH)env_deletion.c
 #####################################utils#######################################
 UTILS_PATH	= srcs/utils/
 UTILS_EXE	= $(UTILS_PATH)advanced_split_utils.c\

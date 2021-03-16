@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 17:35:31 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/13 11:18:11 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/15 18:37:59 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int			ft_exit(char **argv)
 {
 	unsigned char	out;
 
-	ft_putstr_fd("exit\n", 1);
 	if (!argv[1])
 		out = 0;
 	else if (!check_number(argv[1]))

@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 20:03:26 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/13 11:18:11 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/12 22:12:09 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,23 @@
 #include <stdlib.h>
 #include "start.h"
 
-int	is_valid_env_name(char *str)
+int		is_valid_env_name(char *str)
 {
-		if (ft_isdigit(str[0]))
+	if (ft_isdigit(str[0]))
+		return (0);
+	while (*str)
+	{
+		if (!ft_isdigit(*str) && !ft_isalpha(*str) && *str != '_')
 			return (0);
-		while (*str)
-			{
-				if (!ft_isdigit(*str) && !ft_isalpha(*str) && *str != '_')
-					return (0);
-				str++;
-			}
-		return (1);
+		str++;
+	}
+	return (1);
 }
 
 char	*get_envp_value(char *name, char **envp)
 {
 	int		i;
-	char 	**strs;
+	char	**strs;
 	char	*result;
 
 	i = 0;
@@ -70,7 +70,7 @@ char	*get_env_value(char *name, t_env **env)
 
 char	**build_envp(t_env **env)
 {
-	int	size;
+	int		size;
 	t_env	*tmp;
 	char	**result;
 
@@ -87,60 +87,10 @@ char	**build_envp(t_env **env)
 	while (tmp)
 	{
 		if (tmp->value)
-			result[size++] = superstrjoin(ft_strjoin(tmp->name, "="), tmp->value);
+			result[size++] =
+				superstrjoin(ft_strjoin(tmp->name, "="), tmp->value);
 		tmp = tmp->next;
 	}
 	result[size] = NULL;
 	return (result);
-}
-
-void	free_env_elem(t_env **env)
-{
-	if ((*env)->name)
-	{
-		free((*env)->name);
-		(*env)->name = NULL;
-	}
-	if ((*env)->value)
-	{
-		free((*env)->value);
-		(*env)->value = NULL;
-	}
-	if ((*env))
-	{
-		free((*env));
-		(*env) = NULL;
-	}
-}
-
-void	delete_env_var(char *name, t_env *env)
-{
-	t_env	*cur;
-	t_env	*prev;
-
-	prev = NULL;
-	cur = env;
-	while(cur)
-	{
-		if (!ft_strcmp(name, cur->name))
-		{
-			prev->next = cur->next;
-			free_env_elem(&cur);
-			return ;
-		}
-		prev = cur;
-		cur = cur->next;
-	}
-}
-
-void	free_env(t_env **env)
-{
-	t_env	*tmp;
-
-	while (*env)
-	{
-		tmp = *env;
-		*env = tmp->next;
-		free_env_elem(&tmp);
-	}
 }
