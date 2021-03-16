@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 17:59:10 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/12 21:51:34 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/16 17:56:57 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ static void	get_final_str(char *str, char **out)
 	quote_flag = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' && !is_mirrored(str, i))
-			handle_double_quote(&quote_flag, &strlen, out);
-		else if (str[i] == '"' && !is_mirrored(str, i))
+		if (str[i] == '\'' && (quote_flag == 1 || !is_mirrored(str, i)))
 			handle_single_quote(&quote_flag, &strlen, out);
+		else if (str[i] == '"' && !is_mirrored(str, i))
+			handle_double_quote(&quote_flag, &strlen, out);
 		else if (quote_flag > 0)
 			;
 		else
@@ -75,10 +75,10 @@ static int	get_final_strlen(char *str)
 	quote_flag = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' && !is_mirrored(str, i))
-			handle_double_quote(&quote_flag, &strlen, NULL);
-		else if (str[i] == '"' && !is_mirrored(str, i))
+		if (str[i] == '\'' && (quote_flag == 1 || !is_mirrored(str, i)))
 			handle_single_quote(&quote_flag, &strlen, NULL);
+		else if (str[i] == '"' && !is_mirrored(str, i))
+			handle_double_quote(&quote_flag, &strlen, NULL);
 		else if (quote_flag > 0)
 			;
 		else
