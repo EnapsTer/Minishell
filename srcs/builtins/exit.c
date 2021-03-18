@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 17:35:31 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/15 18:37:59 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/18 18:35:19 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void	handle_sign(char **str, int *sign)
 
 static int	get_number(char *str)
 {
-	long long int	out;
-	int				sign;
+	long int	out;
+	int			sign;
 
 	out = 0;
 	sign = 1;
@@ -47,7 +47,7 @@ static int	get_number(char *str)
 	while ((*str >= '0') && (*str <= '9'))
 	{
 		out = 10 * out + (*str - '0');
-		++str;
+		*str = *str + 1;
 	}
 	ft_skip_spaces(&str);
 	return (sign * out);
@@ -55,8 +55,8 @@ static int	get_number(char *str)
 
 static int	check_number(char *str)
 {
-	long long int	out;
-	int				sign;
+	long int	out;
+	int			sign;
 
 	out = 0;
 	sign = 1;
@@ -66,13 +66,13 @@ static int	check_number(char *str)
 		return (0);
 	while ((*str >= '0') && (*str <= '9'))
 	{
-		if (out > 922337203685477580 && *str > '7'
+		if (out >= 922337203685477580 && *str > '7'
 			&& *str <= '9' && sign == 1)
 			return (0);
-		if (out > 922337203685477580 && *str == '9' && sign == -1)
+		if (out >= 922337203685477580 && *str == '9' && sign == -1)
 			return (0);
 		out = 10 * out + (*str - '0');
-		++str;
+		*str = *str + 1;
 	}
 	ft_skip_spaces(&str);
 	if (*str != '\0')

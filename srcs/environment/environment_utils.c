@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 20:03:26 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/12 22:12:09 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/18 19:43:26 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 int		is_valid_env_name(char *str)
 {
+	if (!*str)
+		return (0);
 	if (ft_isdigit(str[0]))
 		return (0);
 	while (*str)

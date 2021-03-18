@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 13:27:49 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/12 21:29:48 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/18 19:23:41 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,15 @@ static void	syntax_by_pipes(int *continue_flag,
 	int	j;
 
 	j = 0;
+	if (only_spaces_after(piped_strs[0], -1))
+	{
+		print_syntax_error("token `|'", env, continue_flag);
+		return ;
+	}
 	while (piped_strs[j] && piped_strs[j + last_open] && *continue_flag == 0)
 	{
-		if (!(is_piped_syntax_correct(piped_strs[j])))
+		if (!(is_piped_syntax_correct(piped_strs[j])) ||
+				only_spaces_after(piped_strs[j + 1], -1))
 		{
 			if (last_open)
 				print_syntax_error("token `newline'", env, continue_flag);

@@ -6,13 +6,27 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:08:30 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/09 18:28:45 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/18 18:36:06 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-int	echo(char **argv)
+static int	is_echo_n_flag(char *str)
+{
+	if (!str || *str != '-')
+		return (0);
+	*str = *str + 1;
+	while (*str)
+	{
+		if (*str != 'n')
+			return (0);
+		*str = *str + 1;
+	}
+	return (1);
+}
+
+int			echo(char **argv)
 {
 	int	flag_n;
 	int	count;
@@ -21,7 +35,7 @@ int	echo(char **argv)
 	flag_n = 0;
 	while (argv[count])
 	{
-		if (!ft_strcmp(argv[count], "-n"))
+		if (is_echo_n_flag(argv[count]))
 			flag_n++;
 		count++;
 	}
