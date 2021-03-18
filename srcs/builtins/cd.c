@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:31:30 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/12 22:07:00 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/18 10:35:03 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@
 static int	handle_pwd(t_env *env)
 {
 	char	*buf;
-	int		out;
+	t_env	*new;
 
-	out = 0;
 	if (!(buf = getcwd(NULL, 0)))
 	{
 		ft_putstr_fd("minishell: cd: getcwd: ", 2);
@@ -32,14 +31,23 @@ static int	handle_pwd(t_env *env)
 	else if (is_env_declared("PWD", env))
 		change_var_value("PWD", &buf, &env);
 	else
+	{
+		if (!(new = create_env("PWD", buf, NULL)))
+		{
+			free(buf);
+			return (1);
+		}
 		free(buf);
-	return (out);
+		put_env_back(new, env);
+	}
+	return (0);
 }
 
 static int	handle_oldpwd(t_env *env)
 {
 	char	*buf;
 	int		out;
+	t_env	*new;
 
 	out = 0;
 	if (!(buf = getcwd(NULL, 0)))
@@ -51,7 +59,15 @@ static int	handle_oldpwd(t_env *env)
 	else if (is_env_declared("OLDPWD", env))
 		change_var_value("OLDPWD", &buf, &env);
 	else
+	{
+		if (!(new = create_env("OLDPWD", buf, NULL)))
+		{
+			free(buf);
+			return (1);
+		}
 		free(buf);
+		put_env_back(new, env);
+	}
 	return (out);
 }
 
