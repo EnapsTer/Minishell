@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:09:07 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/12 15:18:05 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/18 11:08:39 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@
 
 BOOL	change_shield_char(char *shield_char, char *str, int i, int shield)
 {
-	if (!(*shield_char) && is_shield(str + i) && !is_mirrored(str, i))
+	if (!(*shield_char) && is_shield(str + i) &&
+					(*shield_char == '\'' || !is_mirrored(str, i)))
 	{
 		*shield_char = *(str + i);
 		return (shield == 1 ? TRUE : FALSE);
 	}
-	else if (*shield_char && !is_mirrored(str, i) && *shield_char == *(str + i))
+	else if (*shield_char && *shield_char == *(str + i) &&
+						(*shield_char == '\'' || !is_mirrored(str, i)))
 	{
 		*shield_char = 0;
 		return (shield == 1 ? TRUE : FALSE);

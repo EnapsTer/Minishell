@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_SPLIT_H
-#define MINISHELL_SPLIT_H
+#ifndef ADVANCED_SPLIT_H
+# define ADVANCED_SPLIT_H
 
 char	**advanced_split(char *str, int (*is_delimiter)(char *), int shielding);
 

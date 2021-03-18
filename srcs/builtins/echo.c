@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:08:30 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/18 18:36:06 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/18 20:41:39 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static int	is_echo_n_flag(char *str)
 {
 	if (!str || *str != '-')
 		return (0);
-	*str = *str + 1;
+	str++;
 	while (*str)
 	{
 		if (*str != 'n')
 			return (0);
-		*str = *str + 1;
+		str++;
 	}
 	return (1);
 }

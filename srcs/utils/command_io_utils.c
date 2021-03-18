@@ -31,7 +31,7 @@ int		init_stdfd(t_fd *stdfd)
 	return (TRUE);
 }
 
-int		get_double_redirect_fd(char *file_name, int current_fd)
+int		get_dr(char *file_name, int current_fd)
 {
 	int		fd;
 
@@ -42,7 +42,7 @@ int		get_double_redirect_fd(char *file_name, int current_fd)
 	return (fd);
 }
 
-int		get_right_redirect_fd(char *file_name, int current_fd)
+int		get_rr(char *file_name, int current_fd)
 {
 	int		fd;
 
@@ -53,7 +53,7 @@ int		get_right_redirect_fd(char *file_name, int current_fd)
 	return (fd);
 }
 
-int		get_left_redirect_fd(char *file_name, int current_fd)
+int		get_lr(char *file_name, int current_fd)
 {
 	int		fd;
 

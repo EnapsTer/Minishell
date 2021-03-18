@@ -90,7 +90,7 @@ char	**build_envp(t_env **env)
 	{
 		if (tmp->value)
 			result[size++] =
-				superstrjoin(ft_strjoin(tmp->name, "="), tmp->value);
+					superstrjoin(ft_strjoin(tmp->name, "="), tmp->value);
 		tmp = tmp->next;
 	}
 	result[size] = NULL;

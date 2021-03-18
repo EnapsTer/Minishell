@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:20:36 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/15 15:58:27 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/18 18:21:37 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,11 @@ int			change_exit_code(int ret, t_env **env)
 			return (ERROR);
 		change_var_value("?", &exit_code, env);
 	}
+	else
+	{
+		print_error(0, strerror(errno));
+		return (ERROR);
+	}
 	return (TRUE);
 }
 
@@ -121,13 +126,12 @@ int			handle_commands(char *str, t_env **env)
 		{
 			ret = execute_commands(commands, env);
 			free_commands(&commands);
+			if (change_exit_code(ret, env) == ERROR)
+				break ;
 		}
 		if (!g_input_str)
 			break ;
 	}
 	free_str_arr(&semicoloned_strs);
-	if (change_exit_code(ret, env) == ERROR)
-		return (ERROR);
-	change_exit_code(ret, env);
 	return (ret);
 }

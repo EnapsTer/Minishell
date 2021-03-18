@@ -110,7 +110,7 @@ char	*get_parsed_arg(char *str, t_env *env)
 			str++;
 		else if (is_masked(str, shield_char))
 		{
-			arg_parse.ret_str[arg_parse.i] = *(str + 1);
+			arg_parse.ret_str[arg_parse.i++] = *(str + 1);
 			str += 2;
 		}
 		else if (*str == '$' && shield_char != '\'')

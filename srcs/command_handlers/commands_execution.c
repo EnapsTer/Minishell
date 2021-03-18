@@ -6,13 +6,14 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/15 20:15:33 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/18 17:56:42 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "commands_execution.h"
 #include "strs_utils.h"
+#include "libft.h"
 #include "commands_utils.h"
 #include <stdlib.h>
 #include <dirent.h>
@@ -26,7 +27,7 @@
 #include <sys/stat.h>
 
 BOOL	handle_builtin(char **argv, int *last_pid,
-					int commands_len, t_env **envp)
+						int commands_len, t_env **envp)
 {
 	int		ret;
 	pid_t	pid;
@@ -69,8 +70,8 @@ void	execution_process(char **argv, t_env **env)
 	}
 	if (stat(path, &file_stat) == ERROR)
 		print_error_with_exit(path, strerror(errno), 127);
-//	if ((file_stat.st_mode & S_IFMT) == S_IFDIR)
-//		print_error_with_exit(path, "is a directory", 126);
+	if ((file_stat.st_mode & S_IFMT) == S_IFDIR)
+		print_error_with_exit(path, "is a directory", 126);
 	if (execve(path, argv, envp) == ERROR)
 		print_error_with_exit(path, strerror(errno), 126);
 	free_str_arr(&envp);
@@ -117,10 +118,10 @@ int		wait_processes(int ret, int last_pid)
 int		execute_commands(t_command **commands, t_env **env)
 {
 	int		i;
-	t_fd	stdfd;
 	int		ret;
 	int		commands_len;
 	int		last_pid;
+	t_fd	stdfd;
 
 	if (init_stdfd(&stdfd) == ERROR)
 		return (ERROR);
@@ -135,10 +136,8 @@ int		execute_commands(t_command **commands, t_env **env)
 		else
 			return (ERROR);
 		if (set_default_redirect(commands[i], &stdfd) == ERROR)
-		{
-			print_error(0, strerror(errno));
 			return (ERROR);
-		}
 	}
+	handle_exit(commands_len);
 	return (wait_processes(ret, last_pid));
 }

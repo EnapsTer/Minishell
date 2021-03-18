@@ -33,7 +33,8 @@ UTILS_EXE	= $(UTILS_PATH)advanced_split_utils.c\
 			  $(UTILS_PATH)arguments_parsing_utils.c\
 			  $(UTILS_PATH)print_error_utils.c\
 			  $(UTILS_PATH)commands_execution_utils.c\
-			  $(UTILS_PATH)redirect_delimiter_comparators.c
+			  $(UTILS_PATH)redirect_delimiter_comparators.c\
+			  $(UTILS_PATH)exit_utils.c
 #####################################reading#######################################
 READ_PATH	= srcs/command_read/
 READ_EXE	= $(READ_PATH)read_utils.c\

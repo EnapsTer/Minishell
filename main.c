@@ -6,31 +6,16 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/15 11:37:39 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/18 20:19:15 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "advanced_split.h"
 #include "minishell.h"
 #include "command_handlers.h"
-#include "delimiter_comparators.h"
-#include <stdlib.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 #include <libft.h>
 #include <signal.h>
 #include "start.h"
-#include "strs_utils.h"
-
-// выводить errno
-// exit code $?
-// предварительный парсинг на ошибки ; ' "
-// капс команды
-// cat | ls
-// тест на закрытие in fd пример
-// echo "\$" ------ echo '\$'
-//
 
 char	*g_input_str;
 
@@ -41,7 +26,7 @@ void	signal_handle_routine(int signum)
 	write(STDOUT, "\n", 1);
 }
 
-int routine (t_env **env)
+int		routine(t_env **env)
 {
 	int		ret;
 
@@ -51,7 +36,7 @@ int routine (t_env **env)
 		{
 			ft_putendl_fd("minishell: Cannot allocate memory", 2);
 			nullify_g_str();
-			break;
+			break ;
 		}
 		signal(SIGINT, signal_handle_routine);
 		signal(SIGQUIT, signal_handle_routine);
@@ -59,7 +44,7 @@ int routine (t_env **env)
 			g_input_str = ft_strdup("");
 		ret = handle_commands(g_input_str, env);
 		if (!g_input_str)
-			break;
+			break ;
 		nullify_g_str();
 	}
 	return (ret);
@@ -67,14 +52,6 @@ int routine (t_env **env)
 
 int		main(int argc, char **argv, char **envp)
 {
-	// * echo '\'"'
-	// пишет exit во время выхода из примера ls | exit 55
-
-	// доделать execute free в execute
-	// сделать echo в разных регистрах
-	// сделать норму
-	// прогнать все по тестам
-
 	t_env	*env;
 	int		ret;
 
@@ -87,4 +64,3 @@ int		main(int argc, char **argv, char **envp)
 	free_env(&env);
 	return (ret);
 }
-

@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 17:35:31 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/18 18:35:19 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/18 21:24:50 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	get_number(char *str)
 	while ((*str >= '0') && (*str <= '9'))
 	{
 		out = 10 * out + (*str - '0');
-		*str = *str + 1;
+		str++;
 	}
 	ft_skip_spaces(&str);
 	return (sign * out);
@@ -66,13 +66,14 @@ static int	check_number(char *str)
 		return (0);
 	while ((*str >= '0') && (*str <= '9'))
 	{
-		if (out >= 922337203685477580 && *str > '7'
-			&& *str <= '9' && sign == 1)
+		if (sign == 1 && ft_isdigit(*str) && ((out >= 922337203685477580
+								&& *str > '7') || out > 922337203685477580))
 			return (0);
-		if (out >= 922337203685477580 && *str == '9' && sign == -1)
+		if (sign == -1 && ft_isdigit(*str) && ((out >= 922337203685477580
+								&& *str == '9') || out > 922337203685477580))
 			return (0);
 		out = 10 * out + (*str - '0');
-		*str = *str + 1;
+		str++;
 	}
 	ft_skip_spaces(&str);
 	if (*str != '\0')
@@ -82,7 +83,7 @@ static int	check_number(char *str)
 
 int			ft_exit(char **argv)
 {
-	unsigned char	out;
+	unsigned char out;
 
 	if (!argv[1])
 		out = 0;

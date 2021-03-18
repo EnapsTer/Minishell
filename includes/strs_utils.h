@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef STRS_UTILS_H
-#define STRS_UTILS_H
+# define STRS_UTILS_H
 
 int		str_arr_len(char **arr);
 

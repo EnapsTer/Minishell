@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 13:27:49 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/18 19:23:41 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/18 21:25:42 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static int	handle_end_of_string(int *continue_flag, t_env **env)
 	while (g_input_str[count])
 	{
 		if ((g_input_str[count] == '>' || g_input_str[count] == '<')
-				&& !(is_mirrored(g_input_str, count)) &&
-				only_spaces_after(g_input_str, count))
+			&& !(is_mirrored(g_input_str, count)) &&
+			only_spaces_after(g_input_str, count))
 		{
 			print_syntax_error("`newline'", env, continue_flag);
 			return (0);
 		}
 		if (g_input_str[count] == '|' && !(is_mirrored(g_input_str, count)) &&
-				only_spaces_after(g_input_str, count))
+			only_spaces_after(g_input_str, count))
 		{
 			*continue_flag = NEW_LINE;
 			write(1, "> ", 2);
@@ -44,7 +44,7 @@ static int	handle_end_of_string(int *continue_flag, t_env **env)
 }
 
 static void	syntax_by_pipes(int *continue_flag,
-		char **piped_strs, int last_open, t_env **env)
+					char **piped_strs, int last_open, t_env **env)
 {
 	int	j;
 
@@ -57,7 +57,7 @@ static void	syntax_by_pipes(int *continue_flag,
 	while (piped_strs[j] && piped_strs[j + last_open] && *continue_flag == 0)
 	{
 		if (!(is_piped_syntax_correct(piped_strs[j])) ||
-				only_spaces_after(piped_strs[j + 1], -1))
+			only_spaces_after(piped_strs[j + 1], -1))
 		{
 			if (last_open)
 				print_syntax_error("token `newline'", env, continue_flag);
@@ -69,7 +69,7 @@ static void	syntax_by_pipes(int *continue_flag,
 }
 
 static void	syntax_by_semicolones(char *noquotes,
-		int last_open, int *continue_flag, t_env **env)
+					int last_open, int *continue_flag, t_env **env)
 {
 	char	**semicoloned_strs;
 	char	**piped_strs;
