@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/19 17:11:45 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/19 19:34:43 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ int		execute_commands(t_command **commands, t_env **env)
 	{
 		if (commands[i]->args)
 			ret = execute_command(commands, i, &last_pid, env);
+		else
+			return (SKIP);
 		if (set_default_redirect(commands[i], &stdfd) == ERROR)
 			return (ERROR);
 	}

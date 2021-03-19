@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/19 18:16:02 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/19 18:51:50 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		main(int argc, char **argv, char **envp)
 	int		ret;
 
 	(void)argc;
-	(void *)argv;
+	(void)argv;
 	if (!(env = get_env(envp)))
 	{
 		ft_putendl_fd("minishell: Cannot allocate memory", 2);

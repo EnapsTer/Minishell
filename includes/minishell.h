@@ -18,6 +18,7 @@
 # define TRUE	 1
 # define FALSE	 0
 # define ERROR  -1
+# define SKIP	-2
 # define BOOL	int
 
 typedef	struct		s_command

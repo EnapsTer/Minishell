@@ -62,7 +62,7 @@ OBJ			= $(SRC:.c=.o)
 L_PATH		= libft/
 L_NAME		= libft.a
 #####################################flags#######################################
-CFLAGS		= -Wall -Wextra
+CFLAGS		= -Wall -Wextra -Werror
 SANITIZE	= -fsanitize=address
 #####################################headers#######################################
 INC			= includes/
