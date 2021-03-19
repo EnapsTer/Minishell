@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 17:31:34 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/18 18:56:46 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/19 17:08:15 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,19 @@ int	only_spaces_after(char *str, int i)
 	while (str[++i])
 	{
 		if (str[i] != ' ' && str[i] != '\t')
+			return (0);
+	}
+	return (1);
+}
+
+int	only_signes_after(char *str, int i)
+{
+	if (!str)
+		return (1);
+	while (str[++i])
+	{
+		if (str[i] != ' ' && str[i] != '\t' && str[i] != '|'
+				&& str[i] != ';' && str[i] != '>' && str[i] != '<')
 			return (0);
 	}
 	return (1);

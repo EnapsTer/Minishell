@@ -6,14 +6,14 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 17:35:31 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/18 21:24:50 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/19 17:48:18 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include "start.h"
 
-static void	ft_skip_spaces(char **str)
+void		ft_skip_spaces(char **str)
 {
 	if (str && *str)
 	{

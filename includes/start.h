@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:10:49 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/18 20:22:35 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/19 17:48:49 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int						only_spaces_after(char *str, int i);
 int						only_spaces_before(char *str, int i);
 int						is_mirrored(char *str, int i);
 int						ends_with_semicolon(char *str);
+int						only_signes_after(char *str, int i);
 
 /*
 **------------------------------------------------------------------------
@@ -126,6 +127,7 @@ int						echo(char **argv);
 int						pwd(void);
 int						cd(char **argv, t_env *env);
 int						ft_exit(char **argv);
+void					ft_skip_spaces(char **str);
 int						ft_export(char **argv, t_env **env);
 int						unset(char **argv, t_env *env);
 

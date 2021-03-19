@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 19:35:30 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/12 22:07:24 by nscarab          ###   ########.fr       */
+/*   Updated: 2021/03/19 18:13:47 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	unset(char **argv, t_env *env)
 			ft_putstr_fd(argv[count], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
 			out = 1;
+			count++;
 			continue;
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: nscarab <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 17:31:30 by nscarab           #+#    #+#             */
-/*   Updated: 2021/03/18 20:22:35 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/19 17:38:06 by nscarab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int			cd(char **argv, t_env *env)
 	out = handle_oldpwd(env);
 	if (!(path = get_path(argv, env)))
 		return (1);
+	if (!*path)
+		return (0);
 	if (chdir(path) < 0)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
