@@ -102,7 +102,9 @@ fclean: clean
 
 re: fclean all
 
-norm: $(SRC)
-	norminette $(SRC) $(HDR)
+norm:
+	norminette **/*.c
+	norminette srcs/**/*.c
+	norminette **/*.h
 
 .PHONY: all clean fclean re
