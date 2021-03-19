@@ -57,7 +57,7 @@ void	execution_process(char **argv, t_env **env)
 	char		*path;
 	struct stat	file_stat;
 	char		**envp;
-	char 		*env_path;
+	char		*env_path;
 
 	envp = build_envp(env);
 	env_path = get_env_value("PATH", env);
