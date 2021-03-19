@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:35:29 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/18 17:56:42 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/19 17:11:45 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,16 @@ void	execution_process(char **argv, t_env **env)
 	char		*path;
 	struct stat	file_stat;
 	char		**envp;
+	char 		*env_path;
 
 	envp = build_envp(env);
+	env_path = get_env_value("PATH", env);
+	path = argv[0];
 	if ((signal(SIGINT, SIG_DFL)) == SIG_ERR)
 		print_error(0, "Error: Cannot catch SIGINT");
 	if ((signal(SIGQUIT, SIG_DFL)) == SIG_ERR)
 		print_error(0, "Error: Cannot catch SIGQUIT");
-	if (!(path = get_command_path(argv[0], env)))
+	if (env_path && *env_path && !(path = get_command_path(argv[0], env)))
 	{
 		free_str_arr(&envp);
 		print_error_with_exit(argv[0], "command not found", 127);

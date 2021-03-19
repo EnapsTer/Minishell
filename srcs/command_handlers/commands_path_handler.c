@@ -70,7 +70,10 @@ char	*get_command_path(char *name, t_env **env)
 		if (is_in_directory(name, env_path[i]))
 		{
 			if (!(path = create_full_path(name, env_path[i])))
+			{
+				free_str_arr(&env_path);
 				return (NULL);
+			}
 			free_str_arr(&env_path);
 			return (path);
 		}
