@@ -133,8 +133,6 @@ int		execute_commands(t_command **commands, t_env **env)
 	{
 		if (commands[i]->args)
 			ret = execute_command(commands, i, &last_pid, env);
-		else
-			return (ERROR);
 		if (set_default_redirect(commands[i], &stdfd) == ERROR)
 			return (ERROR);
 	}

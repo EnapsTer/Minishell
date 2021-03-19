@@ -14,14 +14,20 @@
 #include <stdlib.h>
 #include "libft.h"
 #include "delimiter_comparators.h"
+#include "advanced_split_utils.h"
 
 int		skip_words(char *str)
 {
 	int		cnt;
+	char	shield_char;
 
+	shield_char = 0;
 	cnt = 0;
-	while (str[cnt] && str[cnt] != ' ')
+	while (str[cnt] && (shield_char || str[cnt] != ' '))
+	{
+		change_shield_char(&shield_char, str, cnt, 0);
 		cnt++;
+	}
 	return (cnt);
 }
 

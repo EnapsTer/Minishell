@@ -6,7 +6,7 @@
 /*   By: aherlind <aherlind@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:11:26 by aherlind          #+#    #+#             */
-/*   Updated: 2021/03/18 20:19:15 by aherlind         ###   ########.fr       */
+/*   Updated: 2021/03/19 14:22:13 by aherlind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,54 @@ int		routine(t_env **env)
 	return (ret);
 }
 
+#include <stdio.h>
+#include <fcntl.h>
+
+int 	run_script(char **argv, t_env **env)
+{
+	char	*line;
+	int 	fd;
+	int		ret;
+
+	line = NULL;
+	ret = 1;
+	fd = open(argv[1], O_RDONLY);
+	while (get_next_line(fd, &line) > 0)
+	{
+		g_input_str = ft_strdup(line);
+		free(line);
+		line = NULL;
+		ret = handle_commands(g_input_str, env);
+
+		if (!g_input_str)
+			break ;
+		nullify_g_str();
+	}
+	if (line)
+	{
+		g_input_str = ft_strdup(line);
+		free(line);
+		line = NULL;
+		ret = handle_commands(g_input_str, env);
+		nullify_g_str();
+	}
+	return (ret);
+}
+
 int		main(int argc, char **argv, char **envp)
 {
+	// echo "asdasd" > file.txt -- fixed
+	// export HOME= ; cd
+	// echo -n -nnn hello -n ; echo a
+	// export  $var=test avec var unset
+	// export la même variable - unicode
+	// .
+	// echo\ a - все что связано с \ без ковычек
+	// > test - создается файл - fixed
+	// export test="file1 file22" ;>$test
+	// echo bonjour > > out_log
+	// unset PATH ; ls --- error message
+
 	t_env	*env;
 	int		ret;
 
@@ -60,7 +106,16 @@ int		main(int argc, char **argv, char **envp)
 		ft_putendl_fd("minishell: Cannot allocate memory", 2);
 		return (1);
 	}
-	ret = routine(&env);
-	free_env(&env);
+
+	if (argc > 1)
+	{
+		ret = run_script(argv, &env);
+		free_env(&env);
+	}
+	else
+	{
+		ret = routine(&env);
+		free_env(&env);
+	}
 	return (ret);
 }
