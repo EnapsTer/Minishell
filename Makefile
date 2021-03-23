@@ -82,7 +82,6 @@ HDR			= $(INC)minishell.h\
 			  $(INC)arguments_parsing.h\
 			  $(INC)print_errors.h
 
-
 .c.o: $(HDR)
 	gcc $(CFLAGS) -I$(INC) -c $< -o $(<:.c=.o)
 
